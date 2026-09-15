@@ -17,9 +17,21 @@ export function Button({ href = '#', variant = 'default', size, className = '', 
     .filter(Boolean)
     .join(' ')
 
+  const isText = typeof children === 'string' || typeof children === 'number'
+
   return (
     <Link href={href} className={`${classes} w-inline-block`}>
-      <div>{children}</div>
+      {isText ? (
+        <span className="btn_roll_wrapper">
+          <span className="btn_roll_ghost" aria-hidden="true">
+            {children}
+          </span>
+          <span className="btn_roll_default">{children}</span>
+          <span className="btn_roll_hover">{children}</span>
+        </span>
+      ) : (
+        <div>{children}</div>
+      )}
     </Link>
   )
 }

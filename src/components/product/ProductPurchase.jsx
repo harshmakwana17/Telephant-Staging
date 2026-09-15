@@ -77,17 +77,24 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
         data-aos="fade-up"
         data-aos-delay="300"
       >
-        <div>TOTAL [ {formatPrice(total)} ]</div>
-        <div className="buy_now_roll_wrapper">
-          <span className="buy_now_roll_ghost" aria-hidden="true">
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25em' }}>
+          <span>TOTAL [</span>
+          <span className="btn_roll_wrapper">
+            <span className="btn_roll_ghost" aria-hidden="true">
+              {formatPrice(total)}
+            </span>
+            <span className="btn_roll_default">{formatPrice(total)}</span>
+            <span className="btn_roll_hover">{formatPrice(total)}</span>
+          </span>
+          <span>]</span>
+        </div>
+
+        <div className="btn_roll_wrapper">
+          <span className="btn_roll_ghost" aria-hidden="true">
             BUY NOW
           </span>
-          <span className="buy_now_roll_default">
-            BUY NOW
-          </span>
-          <span className="buy_now_roll_hover">
-            BUY NOW
-          </span>
+          <span className="btn_roll_default">BUY NOW</span>
+          <span className="btn_roll_hover">BUY NOW</span>
         </div>
       </button>
 

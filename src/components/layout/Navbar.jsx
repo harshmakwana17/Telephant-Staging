@@ -72,7 +72,13 @@ export function Navbar({ settings }) {
 
             {settings.navButton?.label ? (
               <Link href={settings.navButton.href || '#'} className="nav_btn w-inline-block">
-                <div>{settings.navButton.label}</div>
+                <span className="btn_roll_wrapper">
+                  <span className="btn_roll_ghost" aria-hidden="true">
+                    {settings.navButton.label}
+                  </span>
+                  <span className="btn_roll_default">{settings.navButton.label}</span>
+                  <span className="btn_roll_hover">{settings.navButton.label}</span>
+                </span>
               </Link>
             ) : null}
 

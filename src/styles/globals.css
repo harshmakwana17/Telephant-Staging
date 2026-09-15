@@ -954,20 +954,24 @@ button.buy-now-btn {
 }
 
 /* ============================================================
-   Buy Now Button Text Roll Hover Effect (BUY NOW -> BUY NOW)
+   Universal Button Text Roll Hover Effect (UP-Out / UP-In)
    ============================================================ */
 
+.btn_roll_wrapper,
 .buy_now_roll_wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   height: 1.4em;
   line-height: 1.4em;
   clip-path: inset(0 0 0 0);
   pointer-events: none;
+  vertical-align: middle;
 }
 
+.btn_roll_ghost,
 .buy_now_roll_ghost {
   opacity: 0;
   visibility: hidden;
@@ -977,45 +981,61 @@ button.buy-now-btn {
   height: 1.4em;
   line-height: 1.4em;
   display: inline-block;
-  font-weight: 500;
-  letter-spacing: var(--letter-spacing--tight);
+  font-weight: inherit;
+  letter-spacing: inherit;
 }
 
+.btn_roll_default,
 .buy_now_roll_default {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   display: inline-block;
+  text-align: center;
   white-space: nowrap;
   height: 1.4em;
   line-height: 1.4em;
-  color: #ffffff;
+  color: inherit;
   transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   transform: translateY(0%);
   opacity: 1;
 }
 
+.btn_roll_hover,
 .buy_now_roll_hover {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   display: inline-block;
+  text-align: center;
   white-space: nowrap;
   height: 1.4em;
   line-height: 1.4em;
-  color: #ffffff;
+  color: inherit;
   transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   transform: translateY(100%);
   opacity: 0;
 }
 
-/* On Button Hover: BUY NOW rolls UP out (-100%), new BUY NOW rolls UP in (0%) */
-.button.buy-now-btn:hover .buy_now_roll_default {
+/* On Button Hover: Text rolls UP out (-100%), new text rolls UP in (0%) */
+.button:hover .btn_roll_default,
+.button:hover .buy_now_roll_default,
+.nav_btn:hover .btn_roll_default,
+a.button:hover .btn_roll_default,
+a.button:hover .buy_now_roll_default,
+a.nav_btn:hover .btn_roll_default {
   transform: translateY(-100%);
   opacity: 0;
 }
 
-.button.buy-now-btn:hover .buy_now_roll_hover {
+.button:hover .btn_roll_hover,
+.button:hover .buy_now_roll_hover,
+.nav_btn:hover .btn_roll_hover,
+a.button:hover .btn_roll_hover,
+a.button:hover .buy_now_roll_hover,
+a.nav_btn:hover .btn_roll_hover {
   transform: translateY(0%);
   opacity: 1;
 }
