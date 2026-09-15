@@ -670,19 +670,35 @@ button.buy-now-btn {
    Rico.supply Rolling Text (Opacity Fade & Gap Fix)
    ============================================================ */
 
+.hero_heading {
+  max-width: 62rem !important;
+}
+
 .hero_line_2 {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
   white-space: normal;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  grid-row-gap: 0;
+  grid-column-gap: 0.5ch;
   max-width: 100%;
-  gap: 0.35em;
+  display: inline-flex;
 }
 
 @media screen and (max-width: 767px) {
   .hero_line_2 {
-    gap: 5px;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .rico-roll-stage {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .rico-roll-word {
+    text-align: center !important;
   }
 }
 
@@ -726,7 +742,7 @@ button.buy-now-btn {
   white-space: nowrap;
   height: 1.12em;
   line-height: 1.12em;
-  text-align: left;
+  text-align: center;
   will-change: transform, opacity;
 }
 
@@ -860,8 +876,8 @@ button.buy-now-btn {
   transition: background-color 0.3s ease !important;
 }
 
-.liecence_type_select > *,
-.plan_select > * {
+.liecence_type_select>*,
+.plan_select>* {
   position: relative;
   z-index: 2;
 }
@@ -1036,10 +1052,22 @@ button.buy-now-btn {
   margin-left: 0;
   z-index: 5;
 }
-.hero_avatar_item:nth-child(2) { z-index: 4; }
-.hero_avatar_item:nth-child(3) { z-index: 3; }
-.hero_avatar_item:nth-child(4) { z-index: 2; }
-.hero_avatar_item:nth-child(5) { z-index: 1; }
+
+.hero_avatar_item:nth-child(2) {
+  z-index: 4;
+}
+
+.hero_avatar_item:nth-child(3) {
+  z-index: 3;
+}
+
+.hero_avatar_item:nth-child(4) {
+  z-index: 2;
+}
+
+.hero_avatar_item:nth-child(5) {
+  z-index: 1;
+}
 
 .template_heading {
   grid-column-gap: 0.875rem;
