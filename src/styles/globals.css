@@ -673,10 +673,17 @@ button.buy-now-btn {
 .hero_line_2 {
   display: inline-flex;
   align-items: center;
-  flex-wrap: nowrap;
-  white-space: nowrap;
+  justify-content: center;
+  flex-wrap: wrap;
+  white-space: normal;
   max-width: 100%;
   gap: 0.35em;
+}
+
+@media screen and (max-width: 767px) {
+  .hero_line_2 {
+    gap: 5px;
+  }
 }
 
 .rico-roll-box {
