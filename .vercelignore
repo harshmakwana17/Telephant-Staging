@@ -1,0 +1,27 @@
+# Files not uploaded when deploying with `vercel` from this directory.
+#
+# Vercel falls back to .gitignore when this file is absent, so the entries that
+# matter there are repeated here rather than inherited.
+
+# dependencies and build output - Vercel installs and builds on its side
+node_modules
+.next
+out
+build
+
+# env files: set these in Vercel's project settings instead of uploading them
+.env
+.env.local
+.env*.local
+
+# local tooling, not part of the app
+.git
+.claude
+CLAUDE.md
+AGENTS.md
+.vscode
+.idea
+.DS_Store
+
+# the packaged handoff archive, if it is ever created inside this folder
+*.zip

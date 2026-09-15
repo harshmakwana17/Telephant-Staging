@@ -1,0 +1,29 @@
+/*
+ * The one rule worth keeping from webflow.css's `.w-richtext` block.
+ *
+ * Everything else under that selector is Webflow Designer chrome - selection
+ * outlines, `[contenteditable]` helpers, video-embed overlays - which does
+ * nothing on a published site. The spacing for headings, lists and blockquotes
+ * comes from `.text-rich-text` in telephant.webflow.css, which is the project's
+ * own design system rather than Webflow's component CSS.
+ */
+
+.figure {
+  position: relative;
+  max-width: 60%;
+  margin: var(--_layout---spacing--small, 1.5rem) 0;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin-top: var(--_layout---spacing--xxtiny, 0.25rem);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--_theme---text--secondary, #444);
+  text-align: center;
+}

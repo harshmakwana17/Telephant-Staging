@@ -1,0 +1,1040 @@
+/*
+ * Styles that lived in inline <style> blocks in the Webflow export.
+ * Moved here verbatim so the three stylesheets in src/styles/css/ stay exactly
+ * as Webflow generated them and can be re-exported over without losing this.
+ *
+ * Order matches the export: marquee, global focus styles, custom overrides,
+ * mobile nav, then the product-page rules.
+ */
+
+/* ============================================================
+   Trust logo marquee (index.html)
+   ============================================================ */
+
+/*
+ * PARTLY UNUSED. No component renders .trust_logo_track or .trust_logo_wrap, so
+ * this trustMarquee keyframe, and every .trust_logo_track / .trust_logo_wrap
+ * rule in the media queries below, has no effect. The trust strip's motion
+ * comes from Splide AutoScroll in src/components/ui/Marquee.jsx - edit that.
+ *
+ * The .trust_logo_img height rules below ARE live: they size the logos at each
+ * breakpoint. Don't delete those.
+ *
+ * Kept as-is because this block is the export's inline CSS, moved verbatim.
+ */
+.trust_logo_track {
+  animation: trustMarquee 10s linear infinite;
+}
+
+/*@keyframes trustMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+} */
+@keyframes trustMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .trust_logo_track {
+    animation-duration: 16s;
+  }
+
+  .trust_logo_wrap {
+    gap: 50px;
+    padding-right: 50px;
+  }
+
+  .trust_logo_img {
+    height: 32px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .trust_logo_wrap {
+    gap: 35px;
+    padding-right: 35px;
+  }
+
+  .trust_logo_img {
+    height: 28px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .trust_logo_wrap {
+    gap: 25px;
+    padding-right: 25px;
+  }
+
+  .trust_logo_img {
+    height: 24px;
+  }
+}
+
+/* ============================================================
+   Webflow global styles - focus, layout helpers (both pages)
+   ============================================================ */
+
+/* Accessible focus styles for keyboard users, customizable via the Variables panel */
+[tabindex]:not([tabindex='-1']):focus-visible,
+button:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible,
+input[type='file']:focus-visible {
+  outline: var(--_sizes---focus--width, 2px) solid var(--_theme---system--focus-state, #005fcc);
+  outline-offset: var(--_sizes---focus--offset, 2px);
+}
+
+/* Text selection styling, customizable via the Variables panel */
+::selection {
+  background-color: var(--_theme---system--selection-background);
+  color: var(--_theme---system--selection-text);
+  text-shadow: none;
+  /* Ensures text remains readable */
+}
+
+::-moz-selection {
+  background-color: var(--_theme---system--selection-background);
+  color: var(--_theme---system--selection-text);
+  text-shadow: none;
+}
+
+/* Pointer cursor for essential interactive elements
+Uncomment to enable. Keep this message for future handoff clarity. */
+/*
+  button,
+  a[href],
+  input[type='button'],
+  input[type='submit'],
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='file'],
+  select,
+  [role='button'] {
+    cursor: pointer;
+  }
+*/
+/* Reset default browser styles for form elements, especially on Apple devices.
+Uncomment to enable. Keep this message for future handoff clarity. */
+/*
+  input,
+  textarea,
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    background-image: none;
+    background-color: transparent;
+  }
+*/
+/* Make the following elements inherit typography styles from their parent.
+  Note: This will override Webflow’s base styles (e.g. “All Links” won’t work as expected in Designer).
+Uncomment to enable. Keep this message for futurehandoff clarity. */
+/*
+  a,
+  .w-input,
+  .w-select,
+  .w-tab-link,
+  .w-nav-link,
+  .w-dropdown-btn,
+  .w-dropdown-toggle,
+  .w-dropdown-link {
+    color: inherit;
+    text-decoration: inherit;
+  }
+*/
+/* Highlight empty links, can be used to find broken links
+Uncomment to enable. Keep this message for futurehandoff clarity.
+*/
+/*
+  .wf-design-mode a[href='#']:not(.w-lightbox):not([class='pagination']) {
+    outline-color: red;
+    outline-style: solid;
+    outline-width: 3px;
+    outline-offset: 5px;
+  }
+*/
+/* Remove top margin from the first element inside any Rich Text block */
+.w-richtext> :not(div):first-child,
+.w-richtext>div:first-child> :first-child {
+  margin-top: 0 !important;
+}
+
+/* Remove bottom margin from the last element inside any Rich Text block */
+.w-richtext> :last-child,
+.w-richtext ul li:last-child,
+.w-richtext ol li:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Apply "..." after 3 lines of text */
+.text-style-3lines {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Apply "..." after 2 lines of text */
+.text-style-2lines {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Apply "..." after 1 line of text */
+.text-style-1line {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+/* ============================================================
+   Custom overrides - buttons, licence + add-on selects (both pages)
+   ============================================================ */
+
+/* === button animation ==== */
+.get_in_touch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.get_in_touch-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.get_in_touch-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Custom CSS */
+/*.form_radio:is([checked]) {
+  }*/
+.liecence_type_select:has(input[type="radio"]:checked) {
+  border-color: #141414;
+}
+
+input[type="radio"],
+input[name="Licence Type"] {
+  accent-color: #141414;
+  width: 18px !important;
+  height: 18px !important;
+  cursor: pointer;
+}
+
+/* ============== */
+.template_card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Product Card Price Roll Hover Effect (Price -> Purchase)
+   ============================================================ */
+
+.template_card_price_wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  height: 1.6em;
+  line-height: 1.6em;
+  vertical-align: middle;
+  color: #00000080;
+  letter-spacing: var(--letter-spacing--tight);
+  font-weight: 400;
+  padding-right: 4px;
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+}
+
+.template_card_price_ghost {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  height: 1.6em;
+  line-height: 1.6em;
+  display: inline-block;
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing--tight);
+}
+
+.template_card_price_default {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  white-space: nowrap;
+  height: 1.6em;
+  line-height: 1.6em;
+  color: #00000080;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.template_card_price_hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  white-space: nowrap;
+  height: 1.6em;
+  line-height: 1.6em;
+  color: #00000080;
+  font-weight: 500;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* On Card Hover: Price rolls UP out (-100%), Purchase rolls UP in (0%) */
+.template_card:hover .template_card_price_default {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.template_card:hover .template_card_price_hover {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.view_btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+  pointer-events: none;
+}
+
+/* ====================== */
+input[type="checkbox"],
+input[name="Add ons Plan"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px !important;
+  height: 18px !important;
+  border: 1px solid #000;
+  border-radius: 50%;
+  background: #ffffff;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="checkbox"]:checked,
+input[name="Add ons Plan"]:checked {
+  background: #000000;
+  border-color: #000000;
+}
+
+input[type="checkbox"]:checked::after,
+input[name="Add ons Plan"]:checked::after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 8px;
+  border: solid #ffffff;
+  border-width: 0 1.6px 1.6px 0;
+  transform: rotate(45deg);
+  margin-top: -1px;
+}
+
+/* ============================================================
+   Mobile navigation drawer (both pages)
+   ============================================================ */
+
+@media (max-width: 991px) {
+  .nav_container {
+    min-height: 90px;
+  }
+
+  /* Hamburger button */
+  .nav_menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 10001;
+  }
+
+  /* Menu closed */
+  .nav_menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    padding: 12px;
+    background: #fff;
+    border-radius: 16px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-15px) scale(0.98);
+    transform-origin: top;
+    transition:
+      opacity 0.35s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.35s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Menu links */
+  .nav_menu_link {
+    width: 100%;
+    padding: 16px 14px;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.4s ease,
+      background-color 0.25s ease;
+  }
+
+  .nav_menu_link::after {
+    display: none;
+  }
+
+  .nav_menu_link:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+  }
+
+  /* =========================
+     OPEN MENU
+  ========================= */
+  .nav_container.menu-open .nav_menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .nav_container.menu-open .nav_menu_link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* =========================
+     STAGGER ANIMATION
+  ========================= */
+  .nav_container.menu-open .nav_menu_link:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+
+  .nav_container.menu-open .nav_menu_link:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+
+  .nav_container.menu-open .nav_menu_link:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+
+  .nav_container.menu-open .nav_menu_link:nth-child(4) {
+    transition-delay: 0.2s;
+  }
+}
+
+/* ============================================================
+   Product page - responsive layout + FAQ dropdown (product.html)
+   ============================================================ */
+
+@media screen and (max-width: 1331px) {
+
+  .product_card_wrapper,
+  .product_card_wrap {
+    flex-direction: column;
+  }
+
+  .product_card_img_wrap,
+  .product_card_content_wrap,
+  .product_card_img {
+    max-width: none;
+  }
+}
+
+/* ======== DROPDOWN ========== */
+.dropdown {
+  width: 100%;
+}
+
+.dropdown_toggle {
+  cursor: pointer;
+}
+
+.dropdown_toggle img {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.4s ease;
+}
+
+/* Closed state */
+.navigation {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  /*
+   * The export had a stray `;` after the opacity step, which left
+   * `margin-top 0.4s ease;` dangling as an invalid declaration - browsers
+   * dropped it silently, so margin-top snapped instead of animating.
+   */
+  transition:
+    height 0.4s ease,
+    opacity 0.3s ease
+}
+
+.navigation p {
+  margin-top: 12px;
+}
+
+/* Open state */
+.dropdown.is-open .navigation {
+  opacity: 1;
+
+}
+
+.dropdown.is-open .dropdown_toggle img {
+  transform: rotate(180deg);
+}
+
+
+/* ============================================================
+   React port additions
+   ============================================================ */
+
+/*
+ * The export chevron is an inline <svg>, but its rotate rule targeted
+ * `.dropdown_toggle img` - a selector nothing matched, so the arrow never
+ * turned. Same rule, pointed at the element that is actually there.
+ */
+.dropdown_toggle svg {
+  transition: transform 0.4s ease;
+  flex: none;
+}
+
+.dropdown.is-open .dropdown_toggle svg {
+  transform: rotate(180deg);
+}
+
+/*
+ * "Buy now" is a <button> rather than an <a> because it triggers an action
+ * instead of navigating. These reset the UA button defaults that `.button`
+ * does not already override.
+ */
+button.buy-now-btn {
+  width: 100%;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+}
+
+/* Splide sets its own list styles; keep the marquee row from inheriting them. */
+.splide__list {
+  align-items: center;
+}
+
+/* ============================================================
+   Rico.supply Custom Cursor Styles (Product Cards Only)
+   ============================================================ */
+
+.rico-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.25s ease;
+}
+
+.rico-cursor.is-visible {
+  opacity: 1;
+}
+
+/* Default state: small 14px black dot */
+.rico-cursor-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #000000;
+  color: #ffffff;
+  box-shadow: none;
+  transition:
+    width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Card Hover State: Explicit morph dimensions + exact specs (padding: 5px 14px, gap: 6px, radius: 32px) */
+.rico-cursor.is-card .rico-cursor-inner {
+  width: 98px;
+  height: 32px;
+  padding: 5px 14px;
+  gap: 6px;
+  border-radius: 32px;
+  background-color: #000000;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* Text inside expanded cursor - Exact Framer inspect specs */
+.rico-cursor-text {
+  margin: 0;
+  font-family: 'Instrument Sans', 'Instrument Sans Placeholder', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.4px;
+  line-height: 140%;
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(0.6) translateX(-6px);
+  transition:
+    opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rico-cursor.is-card .rico-cursor-text {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+  transition-delay: 0.06s;
+}
+
+/* Arrow inside expanded cursor - enter-svgrepo-com 24x24 SVG */
+.rico-cursor-arrow-wrap {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rico-cursor-arrow {
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(0.6) translateX(-8px);
+  transition:
+    opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rico-cursor.is-card .rico-cursor-arrow {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+  transition-delay: 0.08s;
+}
+
+/* ============================================================
+   Rico.supply Rolling Text (Opacity Fade & Gap Fix)
+   ============================================================ */
+
+.hero_line_2 {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  max-width: 100%;
+  gap: 0.35em;
+}
+
+.rico-roll-box {
+  display: inline-flex;
+  position: relative;
+  vertical-align: bottom;
+  height: 1.12em;
+  line-height: 1.12em;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.rico-roll-ghost {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  white-space: nowrap;
+  user-select: none;
+  height: 1.12em;
+  line-height: 1.12em;
+  display: inline-block;
+}
+
+.rico-roll-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.rico-roll-word {
+  display: inline-block;
+  white-space: nowrap;
+  height: 1.12em;
+  line-height: 1.12em;
+  text-align: left;
+  will-change: transform, opacity;
+}
+
+/* Active State */
+.rico-roll-word.is-active {
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+/* Outgoing Word: Framer Spring Slide UP + Blur Fade Out */
+.rico-roll-word.is-leaving {
+  animation: framerRollOut 0.48s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+@keyframes framerRollOut {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  60% {
+    opacity: 0;
+    filter: blur(3px);
+  }
+
+  100% {
+    transform: translateY(-110%);
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+/* Incoming Word: Framer Spring Slide UP from bottom + Subtle Bounce Ease */
+.rico-roll-word.is-entering {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: framerRollIn 0.55s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+@keyframes framerRollIn {
+  0% {
+    transform: translateY(120%);
+    opacity: 0;
+    filter: blur(4px);
+  }
+
+  30% {
+    opacity: 0;
+    filter: blur(3px);
+  }
+
+  80% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* ============================================================
+   Editor Choice 2-Column Grid Layout
+   ============================================================ */
+.editor_choice_card_wrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media screen and (max-width: 767px) {
+  .editor_choice_card_wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Testimonial Avatar Sizing */
+.testi_person_block img {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+}
+
+/* ============================================================
+   Get in Touch Background Video
+   ============================================================ */
+.get_in_touch_wrap {
+  position: relative;
+  overflow: hidden;
+  background-image: none !important;
+}
+
+.get_in_touch_video_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.get_in_touch_heading,
+.get_in_touch_content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   Product Purchase Option Card Hover & Smooth Gradient Border
+   ============================================================ */
+.liecence_wrapper .label,
+.add_plan_wrapper .label,
+.liecence_type_select,
+.plan_select {
+  cursor: pointer !important;
+}
+
+.liecence_type_select,
+.plan_select {
+  position: relative !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.liecence_type_select > *,
+.plan_select > * {
+  position: relative;
+  z-index: 2;
+}
+
+.liecence_type_select::before,
+.plan_select::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 1px solid transparent;
+  border-image-source: linear-gradient(89.43deg, #000000 17.43%, #555555 92.28%);
+  border-image-slice: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liecence_type_select:hover::before,
+.plan_select:hover::before,
+.liecence_type_select:has(input:checked)::before,
+.plan_select:has(input:checked)::before {
+  opacity: 1;
+}
+
+.liecence_type_select:hover,
+.plan_select:hover,
+.liecence_type_select:has(input:checked),
+.plan_select:has(input:checked) {
+  background-color: #f9f9f9 !important;
+}
+
+/* Product Benefits SVG Icons */
+.benifit_block img {
+  width: 85px !important;
+  height: 85px !important;
+  object-fit: contain !important;
+  margin-bottom: 4px;
+}
+
+/* ============================================================
+   Combo Class: Directional Animated Underline (.has-animated-underline)
+   - Default: Line hidden (scaleX(0))
+   - Hover (Mouse Enter): Line draws Left -> Right (transform-origin: left center; scaleX(1))
+   - Hover Out (Mouse Leave): Line retracts back to Left (transform-origin: left center; scaleX(0))
+   ============================================================ */
+
+.has-animated-underline {
+  position: relative !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  padding-bottom: 4px !important;
+}
+
+.has-animated-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.has-animated-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ============================================================
+   Buy Now Button Text Roll Hover Effect (BUY NOW -> BUY NOW)
+   ============================================================ */
+
+.buy_now_roll_wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  height: 1.4em;
+  line-height: 1.4em;
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+}
+
+.buy_now_roll_ghost {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  height: 1.4em;
+  line-height: 1.4em;
+  display: inline-block;
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing--tight);
+}
+
+.buy_now_roll_default {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  white-space: nowrap;
+  height: 1.4em;
+  line-height: 1.4em;
+  color: #ffffff;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.buy_now_roll_hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  white-space: nowrap;
+  height: 1.4em;
+  line-height: 1.4em;
+  color: #ffffff;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* On Button Hover: BUY NOW rolls UP out (-100%), new BUY NOW rolls UP in (0%) */
+.button.buy-now-btn:hover .buy_now_roll_default {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.button.buy-now-btn:hover .buy_now_roll_hover {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+/* ============================================================
+   Hero Section GSAP Stacked Avatars Animation (Center Bottom Origin)
+   ============================================================ */
+
+.hero_avatar_stack {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-left: 14px;
+}
+
+.hero_avatar_item {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: -14px;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  will-change: transform, opacity;
+  transform-origin: center bottom;
+  opacity: 0;
+  transform: scale(0);
+  transition: margin-left 0.35s ease;
+}
+
+.hero_avatar_item:first-child {
+  margin-left: 0;
+  z-index: 5;
+}
+.hero_avatar_item:nth-child(2) { z-index: 4; }
+.hero_avatar_item:nth-child(3) { z-index: 3; }
+.hero_avatar_item:nth-child(4) { z-index: 2; }
+.hero_avatar_item:nth-child(5) { z-index: 1; }
+
+.template_heading {
+  grid-column-gap: 0.875rem;
+  grid-row-gap: 0.875rem;
+}

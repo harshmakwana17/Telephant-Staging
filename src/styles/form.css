@@ -1,0 +1,276 @@
+/*
+ * Form controls - Client-First class names, no Webflow component CSS.
+ *
+ * telephant.webflow.css already defines .form_component, .form_input,
+ * .form_checkbox, .form_checkbox-icon, .form_radio, .form_radio-icon,
+ * .form_message-success and .form_message-error. Those are the design system
+ * and are left alone.
+ *
+ * What it never defined is everything Webflow's own webflow.css was supplying:
+ *
+ *   .w-input / .w-select    display, font, colour, focus/disabled/readonly
+ *   .w-select               the control's appearance and arrow
+ *   .w-checkbox-input       the box, and its checked state
+ *   .w-form-formradioinput  the circle, and its checked state
+ *   .w-form-label           cursor / weight / display on the choice captions
+ *   .w-button               display: inline-block on the submit
+ *   label { display:block } the field label
+ *
+ * Plus .form_form, .form_field-wrapper, .form_label, .form_checkbox-label,
+ * .form_radio-label and .button.is-form-submit, which have no rules in either
+ * stylesheet - they were carried entirely by the w- classes.
+ *
+ * This file fills exactly those gaps against the Client-First names, so the
+ * form renders identically with webflow.css absent. Loaded after
+ * telephant.webflow.css; see src/app/(site)/layout.jsx.
+ *
+ * The checked states use :checked on the real input. The export hid the input
+ * and had webflow.js toggle `w--redirected-checked` on a sibling <div>, which
+ * stopped working the moment webflow.js was dropped.
+ */
+
+/* ------------------------------------------------------------- wrappers -- */
+
+.form_form {
+  margin: 0;
+}
+
+.form_field-wrapper {
+  /* Also resets the UA fieldset box for the checkbox and radio groups. */
+  margin: 0 0 var(--_layout---spacing--xxsmall, 1rem);
+  padding: 0;
+  border: 0;
+}
+
+.form_field-wrapper:last-of-type {
+  margin-bottom: var(--_layout---spacing--xsmall, 1.25rem);
+}
+
+/* --------------------------------------------------------------- labels -- */
+
+/*
+ * The bare `label` rule in telephant.webflow.css sets margin-bottom and
+ * font-weight but not display; that came from webflow.css. Stated here so the
+ * label does not depend on it. `legend` is included because the choice groups
+ * caption a fieldset.
+ */
+.form_label {
+  display: block;
+  float: none;
+  margin: 0 0 var(--_layout---spacing--xxtiny, 0.25rem);
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight--medium, 500);
+  line-height: 1.4;
+  color: var(--_theme---text--primary, #000);
+}
+
+.form_field-hint {
+  margin: var(--_layout---spacing--xxtiny, 0.25rem) 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--_theme---text--secondary, #444);
+}
+
+/* ------------------------------------------- text, textarea and select -- */
+
+/*
+ * .form_input carries min-height, padding, border and background. These are
+ * the properties .w-input contributed.
+ *
+ * `width: 100%` is included deliberately: the published stylesheet has it on
+ * .form_input, but the local export in src/styles/css/ does not, so there it
+ * came from .w-input. Without it the control collapses to the browser's
+ * default input width (~202px).
+ */
+.form_input {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--_theme---text--primary, #000);
+  vertical-align: middle;
+  border-radius: var(--_sizes---border-radius--small, 0.25rem);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form_input::placeholder {
+  color: var(--_theme---text--secondary, #444);
+  opacity: 0.7;
+}
+
+.form_input:hover:not(:disabled):not([readonly]) {
+  border-color: var(--neutral--neutral, #666);
+}
+
+/* Replaces `.w-input:focus { border-color: #3898ec; outline: 0 }`. */
+.form_input:focus-visible {
+  outline: none;
+  border-color: var(--_theme---text--primary, #000);
+  box-shadow: 0 0 0 3px rgba(45, 98, 255, 0.22);
+}
+
+.form_input:disabled,
+.form_input[readonly] {
+  cursor: not-allowed;
+  color: var(--_theme---text--secondary, #444);
+  background-color: var(--neutral--neutral-light, #eee);
+}
+
+.form_input[aria-invalid='true'] {
+  border-color: var(--others--red-dark, #3b0b0b);
+}
+
+/* `textarea.w-input { height: auto }` */
+.form_input.is-text-area {
+  height: auto;
+  resize: vertical;
+}
+
+/*
+ * .w-select painted the control grey and left the OS arrow. This draws the
+ * arrow inline instead - the export's checkmark and arrow both came from
+ * Webflow's CDN, which this file avoids entirely.
+ */
+.form_input.is-select-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.75rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 7.5l5 5 5-5' fill='none' stroke='%23444' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--_layout---spacing--tiny, 0.75rem) center;
+  background-size: 1.25rem 1.25rem;
+}
+
+/*
+ * The design system greys every .is-select-input. That reads as unset once a
+ * real choice is made, so the placeholder state keeps the grey and a chosen
+ * value returns to primary.
+ */
+.form_input.is-select-input[data-placeholder='false'] {
+  color: var(--_theme---text--primary, #000);
+}
+
+.form_input.is-select-input:disabled {
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------- checkbox and radio -- */
+
+.form_checkbox,
+.form_radio {
+  cursor: pointer;
+}
+
+.form_checkbox:has(input:disabled),
+.form_radio:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/*
+ * .form_checkbox-icon and .form_radio-icon keep their size, margin and radius
+ * from telephant.webflow.css. In the export they sat on a decorative <div>;
+ * here they are on the real input, so `appearance: none` and a border are
+ * needed - both used to come from .w-checkbox-input--inputType-custom and
+ * .w-form-formradioinput--inputType-custom.
+ */
+.form_checkbox-icon,
+.form_radio-icon {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid var(--neutral--neutral, #666);
+  cursor: inherit;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.form_radio-icon {
+  border-radius: 50%;
+}
+
+/* Was `.form_checkbox-icon.w--redirected-checked`, toggled by webflow.js. */
+.form_checkbox-icon:checked {
+  background-color: var(--brand--blue, #2d62ff);
+  border-color: var(--brand--blue, #2d62ff);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 7.2l2.6 2.6L11 4.4' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0.75rem 0.75rem;
+}
+
+/* Was `.form_radio-icon.w--redirected-checked` - the border grows inward. */
+.form_radio-icon:checked {
+  border-width: 0.25rem;
+  border-color: var(--brand--blue, #2d62ff);
+}
+
+.form_checkbox-icon:focus-visible,
+.form_radio-icon:focus-visible {
+  outline: var(--_sizes---focus--width, 2px) solid
+    var(--_theme---system--focus-state, #2d62ff);
+  outline-offset: var(--_sizes---focus--offset, 2px);
+}
+
+/* Was `.w-form-label`. */
+.form_checkbox-label,
+.form_radio-label {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--_theme---text--primary, #000);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------- submit -- */
+
+/*
+ * `.button` supplies colour, padding, radius and transition but never sets
+ * display - `.w-button` did. This is a <button> rather than an <a>, so the UA
+ * button defaults are reset too.
+ */
+.button.is-form-submit {
+  display: inline-block;
+  width: auto;
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.button.is-form-submit:focus-visible {
+  outline: var(--_sizes---focus--width, 2px) solid
+    var(--_theme---system--focus-state, #2d62ff);
+  outline-offset: var(--_sizes---focus--offset, 2px);
+}
+
+.button.is-form-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ------------------------------------------------------------- messages -- */
+
+/*
+ * .form_message-success and .form_message-error already have their colours.
+ * `.w-form-done` / `.w-form-fail` set `display: none` and Webflow's JS
+ * revealed them; React mounts them conditionally instead, so no display rule
+ * is needed here.
+ */
+.form_message-success,
+.form_message-error {
+  border-radius: var(--_sizes---border-radius--small, 0.25rem);
+}
