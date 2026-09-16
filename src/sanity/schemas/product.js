@@ -255,6 +255,38 @@ export const product = {
     },
 
     {
+      name: 'relatedProducts',
+      title: 'More templates',
+      type: 'array',
+      group: 'details',
+      description:
+        'Templates shown in the "More Templates" section at the bottom of this product page, in this order. Pick up to 3. Leave empty to show the 3 newest templates automatically.',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'product' }],
+          // Weak, so a template can still be deleted while other pages list it.
+          // The product page skips any reference that no longer resolves.
+          weak: true,
+          options: {
+            // Picking here should never create a new, half-filled template.
+            disableNew: true,
+            // A template can't list itself. Strip the draft prefix so both the
+            // draft and published copies of the current document are excluded.
+            filter: ({ document }) => {
+              const id = (document?._id || '').replace(/^drafts\./, '')
+              return {
+                filter: '!(_id in [$id, $draftId])',
+                params: { id, draftId: `drafts.${id}` },
+              }
+            },
+          },
+        },
+      ],
+      // Matches the 3-column grid; a 4th card would sit alone on a new row.
+      validation: (Rule) => Rule.unique().max(3),
+    },
+    {
       name: 'reviewCount',
       title: 'Review count',
       type: 'number',

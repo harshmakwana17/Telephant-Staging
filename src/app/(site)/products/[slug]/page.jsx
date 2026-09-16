@@ -60,6 +60,11 @@ export default async function ProductPage({ params }) {
 
   if (!product) notFound()
 
+  // Templates picked in Studio ("More templates" field) win, in the editor's
+  // order. With none picked - or placeholder content, which has no picks - it
+  // falls back to the 3 newest other templates, as before.
+  const moreTemplates = product.relatedProducts?.length ? product.relatedProducts : related
+
   return (
     <>
       <section className="section_product_hero">
@@ -163,7 +168,7 @@ export default async function ProductPage({ params }) {
         </div>
       </section>
 
-      <ProductGrid heading="Recent Launched" products={related} layout="recent" />
+      <ProductGrid heading="Recent Launched" products={moreTemplates} layout="recent" />
       <Testimonials settings={settings} testimonials={testimonials} />
       <TrustMarquee settings={settings} logos={trustLogos} />
       <LaunchCta settings={settings} />

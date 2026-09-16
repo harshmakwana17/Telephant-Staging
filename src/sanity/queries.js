@@ -73,7 +73,13 @@ export const productBySlugQuery = groq`
     licenses[] { _key, name, seats, price },
     addOns[] { _key, name, price, compareAtPrice, benefits },
     benefits[] { _key, label, icon { ${imageFields} } },
-    faqs[] { _key, question, answer }
+    faqs[] { _key, question, answer },
+    // Hand-picked "More Templates" for this page, in the editor's order.
+    // Drops references to deleted templates or ones without a slug, since a
+    // card needs a slug to link to. Null when nothing has been picked.
+    "relatedProducts": relatedProducts[defined(@->slug.current)]->{
+      ${productCardFields}
+    }
   }
 `
 
