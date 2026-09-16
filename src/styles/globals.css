@@ -1144,4 +1144,12 @@ a.nav_btn:hover .btn_roll_hover {
   background-color: #000;
   color: #fff;
   border: 1px solid #000;
-}
+}
+
+.section_footer .container-large {
+  border-top: 1px solid #DDDDDD;
+  margin-top: -34px;
+  padding-top: 34px;
+}
+
+
