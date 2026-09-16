@@ -102,7 +102,12 @@ export default async function ProductPage({ params }) {
                         ) : null}
                       </div>
 
-                      <h1 className="heading-style-h2 is-small-size" data-aos="fade-up" data-aos-delay="100">
+                      <h1
+                        className="heading-style-h2 is-small-size"
+                        data-aos="fade-up"
+                        data-aos-delay="100"
+                        style={{ fontFamily: 'Satoshi, Arial, sans-serif' }}
+                      >
                         {product.title}
                       </h1>
                       <div data-aos="fade-up" data-aos-delay="150">{product.shortDescription}</div>

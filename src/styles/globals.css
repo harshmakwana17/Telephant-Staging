@@ -852,6 +852,7 @@ button.buy-now-btn {
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
+  filter: grayscale(100%);
 }
 
 .get_in_touch_heading,
@@ -1093,3 +1094,54 @@ a.nav_btn:hover .btn_roll_hover {
   grid-column-gap: 0.875rem;
   grid-row-gap: 0.875rem;
 }
+
+/* ============================================================
+   Heading & Button Custom Overrides
+   ============================================================ */
+
+:root {
+  --font-family--heading: Satoshi, sans-serif;
+}
+
+.heading-style-h2 {
+  font-family: Satoshi, sans-serif !important;
+}
+
+.button,
+.button.buy-now-btn,
+.button.is-primary,
+.button.is-secondary,
+.button.get_in_touch-btn {
+  border-radius: 0 !important;
+  font-family: Satoshi, sans-serif;
+}
+
+.button {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
+
+.button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.button.is-primary {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.button.is-primary:hover {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
+
+.button.buy-now-btn {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
