@@ -1,7 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
 import { Button } from '@/components/ui/Button'
 import { RollingText } from '@/components/ui/RollingText'
 import { imageUrl } from '@/sanity/image'
@@ -10,66 +8,6 @@ export function Hero({ settings }) {
   const socialProofImage = imageUrl(settings.heroSocialProofImage)
   const accentWord = settings.heroHeadingAccent || 'Agencies'
 
-  const heroContentWrapRef = useRef(null)
-  const avatarRefs = useRef([])
-
-  useEffect(() => {
-    const wrapEl = heroContentWrapRef.current
-    if (!wrapEl) return
-
-    const avatars = avatarRefs.current.filter(Boolean)
-    if (!avatars.length) return
-
-    // Initially hide avatars: scale 0, opacity 0, transformOrigin center bottom
-    gsap.set(avatars, {
-      scale: 0,
-      opacity: 0,
-      transformOrigin: 'center bottom',
-    })
-
-    let hasTriggered = false
-
-    const animateAvatars = () => {
-      if (hasTriggered) return
-      hasTriggered = true
-
-      // Wait 750ms so the AOS container fade-up animation completes first
-      setTimeout(() => {
-        gsap.to(avatars, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.55,
-          stagger: 0.12,
-          ease: 'back.out(1.7)', // Elastic scale 0 -> 1 bounce from center bottom
-        })
-      }, 750)
-    }
-
-    // AOS fires custom DOM event 'aos:in' on the element when triggered
-    const handleAosIn = () => {
-      animateAvatars()
-    }
-
-    wrapEl.addEventListener('aos:in', handleAosIn)
-
-    // Observer to detect when AOS adds 'aos-animate' to heroContentWrap
-    const observer = new MutationObserver(() => {
-      if (wrapEl.classList.contains('aos-animate')) {
-        animateAvatars()
-      }
-    })
-
-    observer.observe(wrapEl, { attributes: true, attributeFilter: ['class'] })
-
-    if (wrapEl.classList.contains('aos-animate')) {
-      animateAvatars()
-    }
-
-    return () => {
-      wrapEl.removeEventListener('aos:in', handleAosIn)
-      observer.disconnect()
-    }
-  }, [])
 
   return (
     <section className="section_hero">
@@ -78,7 +16,7 @@ export function Hero({ settings }) {
           <div className="hero_main_wrap">
             <div className="hero_wrap">
               <div className="hero_heading">
-                <div className="hero_tag" data-aos="fade-up">
+                <div className="hero_tag" data-animate="fade-up">
                   <div className="hero_tag_content">
                     <div className="tag_dot" />
                     <div>
@@ -89,24 +27,33 @@ export function Hero({ settings }) {
                   <div>{settings.heroTagOffer} →</div>
                 </div>
 
-                <h1 className="heading-style-h1" data-aos="fade-up" data-aos-delay="100">
-                  <span className="block_line">{settings.heroHeadingLine1}</span>
+                {/* Split per part: SplitText rebuilds the markup it touches, so it only
+                    gets the static text. RollingText re-renders every few
+                    seconds and would stop updating if split - it rises inside
+                    its own mask instead (revealDelay). */}
+                <h1 className="heading-style-h1">
+                  <span className="block_line" data-animate="words" data-animate-delay="100">
+                    {settings.heroHeadingLine1}
+                  </span>
                   <span className="hero_line_2">
-                    {settings.heroHeadingLine2}{' '}
+                    <span data-animate="words" data-animate-delay="250">
+                      {settings.heroHeadingLine2}{' '}
+                    </span>
                     <RollingText
                       words={['Founders', 'Startups', 'Agencies', 'Bootstraps']}
                       interval={2500}
                       className="grey-clr"
+                      revealDelay={450}
                     />
                   </span>
                 </h1>
 
-                <div className="hero_subtext" data-aos="fade-up" data-aos-delay="200">
+                <div className="hero_subtext" data-animate="fade-up" data-animate-delay="550">
                   {settings.heroSubtext}
                 </div>
               </div>
 
-              <div className="button_wrapper" data-aos="fade-up" data-aos-delay="300">
+              <div className="button_wrapper" data-animate="fade-up" data-animate-delay="700">
                 {(settings.heroButtons || []).map((button) => (
                   <Button
                     key={button.label}
@@ -120,12 +67,11 @@ export function Hero({ settings }) {
             </div>
 
             <div
-              ref={heroContentWrapRef}
               className="hero_content_wrap"
-              data-aos="fade-up"
-              data-aos-delay="400"
+              data-animate="fade-up"
+              data-animate-delay="850"
             >
-              <div className="hero_avatar_stack">
+              <div className="hero_avatar_stack" data-animate="pop" data-animate-delay="1100">
                 {[
                   '/images/hero-avatar-1.png',
                   '/images/hero-avatar-2.png',
@@ -136,7 +82,6 @@ export function Hero({ settings }) {
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     key={idx}
-                    ref={(el) => (avatarRefs.current[idx] = el)}
                     src={src}
                     alt=""
                     className="hero_avatar_item"

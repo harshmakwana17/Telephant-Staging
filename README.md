@@ -51,7 +51,9 @@ Clone, copy the env file, `npm run dev`.
 
 | Animation | Behaviour | Code |
 | --- | --- | --- |
-| Hero word flip ("Agencies") | AOS `flip-left` on scroll | `data-aos` in `components/sections/Hero.jsx`; AOS set up in `components/ui/AosProvider.jsx` |
+| Scroll reveals (headings, text, grids) | GSAP + ScrollTrigger + SplitText, modelled on rho.co | `data-animate` attributes, run by `components/motion/ScrollAnimations.jsx` — see below |
+| Smooth scrolling | Lenis, on GSAP's ticker | `components/motion/SmoothScroll.jsx` |
+| Hero rolling word ("Founders" → "Startups" → …) | Cycles every 2.5s; rises into place on load | `components/ui/RollingText.jsx` (`revealDelay` prop) |
 | Trust logos, product tag pills | Continuous scroll | Splide AutoScroll in `components/ui/Marquee.jsx` |
 | "View" pill on product cards | Follows the cursor, fades in | JS in `components/ui/TemplateCard.jsx`; `.view_btn` in `styles/globals.css` |
 | Product page FAQ | Height 0 → content → `auto` | JS in `components/product/ProductFaq.jsx`; `.navigation` in `styles/globals.css` |
@@ -66,20 +68,67 @@ is the Webflow export, and re-exporting from Webflow overwrites it. Anything
 added there is lost. Use `src/styles/globals.css`, or a new stylesheet imported
 in `src/app/(site)/layout.jsx` after `telephant.webflow.css`.
 
-**AOS keeps working after client-side navigation** — nothing to wire up. It
-watches the DOM and picks up `data-aos` elements that Next adds when you move
-between pages, so `data-aos="..."` works on any element. `once: false` in
-`AosProvider.jsx` makes animations replay each time an element scrolls into
-view.
+**Scroll animations are attributes, not code.** Put `data-animate` on any
+element inside the `(site)` layout; add `data-animate-delay` (milliseconds) to
+sequence elements that enter together:
+
+```jsx
+<h2 className="heading-style-h2" data-animate="words">Most Popular</h2>
+<p data-animate="fade-up" data-animate-delay="200">…</p>
+```
+
+| `data-animate` | What it does | Use on |
+| --- | --- | --- |
+| `fade-up` | Fades in while rising 14px | Paragraphs, tags, buttons, blocks |
+| `fade` | Fades in | Anything that shouldn't move |
+| `words` | Splits into words; each slides up out of its own mask | Headings — **static text only**, see below |
+| `stagger` | Direct children fade up one after another, row by row as they scroll in | Card grids, lists |
+| `pop` | Direct children scale up from their bottom edge with a bounce | The hero avatars |
+| `rise` | Slides up from below its parent, which must clip (`overflow: hidden`) | Content that already sits in a mask |
+
+Each animation starts when the element's top reaches 88% of the viewport and
+plays once per page view; moving to another page sets that page's elements up
+fresh. The hero is the reference for a sequenced entrance. New presets go in
+`PRESETS` in `ScrollAnimations.jsx` (dev builds warn about unknown names).
+
+**`words` only on text React never updates.** SplitText rebuilds the element's
+markup and puts it back afterwards by resetting `innerHTML`, which swaps out the
+DOM nodes React holds — anything React re-renders inside it later silently stops
+updating. The hero heading shows the workaround: `words` on the static parts,
+and the live `RollingText` rises inside its own mask via `revealDelay`.
+
+**Elements are hidden until their animation is set up.** `styles/motion.css`
+hides `[data-animate]` until the engine runs, so nothing flashes in its final
+position first. If the script never runs they appear after 4s (and at once with
+JavaScript off). Because of this, only use `data-animate` under the `(site)`
+layout — nothing else loads the engine.
+
+**Don't wrap a component in a `<div>` just to animate it.** An extra wrapper can
+break the layout it sits in — it did on the product page, where the gallery has
+to be the direct flex child of `.product_card_wrapper`. `Button` and
+`ProductGallery` pass `data-animate` through to their own element; do the same
+for other components.
+
+**Give images their size up front.** Scroll positions are measured when a page
+loads. An image that only takes up space once its file arrives pushes everything
+below it down afterwards — past the point where those animations already
+played. Sanity images get `width`/`height` from `imageSize()` in
+`sanity/image.js` (with `height: auto` in CSS); do the same for new ones.
+
+**Smooth scrolling (Lenis) only affects mouse wheels** — touch scrolling stays
+native. A scrollable area inside the page (a modal, a long dropdown) needs
+`data-lenis-prevent`, or the wheel scrolls the page behind it.
+`SmoothScroll.jsx` also cancels a smooth scroll still easing out when a link is
+followed; otherwise it would drag the next page down with it.
 
 **The `trustMarquee` keyframe in `globals.css` does nothing.** No component
 renders `.trust_logo_track`. The trust strip is Splide — edit `Marquee.jsx`.
 (The `.trust_logo_img` height rules next to it *are* live.)
 
-**`prefers-reduced-motion` is not handled anywhere yet.** AOS and Splide
-AutoScroll both animate for users who have turned motion off in their OS. The
-comments in `AosProvider.jsx` and `Marquee.jsx` show the option to use in each.
-Worth doing before adding more motion.
+**`prefers-reduced-motion` is only partly handled.** With motion turned off in
+the OS, the scroll animations and Lenis are skipped entirely — content is simply
+there, and scrolling is native. Splide AutoScroll (`Marquee.jsx`) and the
+`RollingText` word cycle still animate; worth fixing before adding more motion.
 
 ## Connecting Sanity
 
@@ -179,8 +228,9 @@ src/
     layout/                 Navbar, Footer, NewsletterForm
     sections/               Hero, ProductGrid, Testimonials, TrustMarquee, ...
     product/                Gallery, Purchase panel, FAQ accordion
+    motion/                 ScrollAnimations (data-animate), SmoothScroll (Lenis)
     styleguide/             one component per style guide section
-    ui/                     Button, TemplateCard, Marquee, Icons, AosProvider,
+    ui/                     Button, TemplateCard, Marquee, Icons,
                             Form.jsx (Client-First classes, no Webflow CSS)
   lib/
     content.js              every data getter, Sanity first with fallbacks
@@ -193,6 +243,7 @@ src/
     css/                    Webflow's three stylesheets, byte-for-byte
     form.css                form controls, replaces webflow.css's form rules
     globals.css             the export's inline <style> blocks + port additions
+    motion.css              hides data-animate elements until they're set up
 public/images/              all 53 images from the export
 ```
 
@@ -294,7 +345,7 @@ components:
 | Splide marquees | `components/ui/Marquee.jsx` |
 | Cursor-following "View" pill | `components/ui/TemplateCard.jsx` |
 | FAQ accordion | `components/product/ProductFaq.jsx` |
-| AOS init | `components/ui/AosProvider.jsx` |
+| AOS init | Replaced by GSAP: `components/motion/ScrollAnimations.jsx` |
 
 ### Known gaps
 

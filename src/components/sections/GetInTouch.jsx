@@ -17,11 +17,13 @@ export function GetInTouch({ settings }) {
               playsInline
               src="/images/scene-15-grain.mp4"
             />
-            <div className="get_in_touch_heading" data-aos="fade-up">
-              <div>{settings.contactEyebrow}</div>
-              <h2 className="heading-style-h2 is-white-clr">{settings.contactHeading}</h2>
+            <div className="get_in_touch_heading">
+              <div data-animate="fade-up">{settings.contactEyebrow}</div>
+              <h2 className="heading-style-h2 is-white-clr" data-animate="words" data-animate-delay="80">
+                {settings.contactHeading}
+              </h2>
             </div>
-            <div className="get_in_touch_content" data-aos="fade-up" data-aos-delay="100">
+            <div className="get_in_touch_content" data-animate="fade-up" data-animate-delay="250">
               <div>{settings.contactBody}</div>
               <Link
                 href={settings.contactButton?.href || '#'}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import { imageUrl, imageAlt } from '@/sanity/image'
+import { imageUrl, imageAlt, imageSize } from '@/sanity/image'
 
 /**
  * Product card with Rico.supply cursor-tracking interaction.
@@ -25,6 +25,7 @@ export function TemplateCard({ product }) {
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={src}
+            {...imageSize(product.cardImage, 800)}
             loading="lazy"
             alt={imageAlt(product.cardImage, name)}
             className="template_img"

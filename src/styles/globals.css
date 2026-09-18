@@ -369,11 +369,7 @@ input[name="Add ons Plan"]:checked::after {
    ============================================================ */
 
 @media (max-width: 991px) {
-  .nav_container {
-    min-height: 90px;
-  }
-
-  /* Hamburger button */
+    /* Hamburger button */
   .nav_menu-button {
     display: flex;
     align-items: center;
@@ -463,6 +459,19 @@ input[name="Add ons Plan"]:checked::after {
   .nav_container.menu-open .nav_menu_link:nth-child(4) {
     transition-delay: 0.2s;
   }
+}
+
+/* ============================================================
+   Sanity images - TemplateCard + ProductGallery
+   ============================================================ */
+
+/* These carry width/height attributes (imageSize in src/sanity/image.js) so
+   their space is reserved before they load. The attributes also act as a
+   fixed pixel size - this keeps the size in CSS and takes only the shape. */
+.template_img,
+.product_card_img {
+  width: 100%;
+  height: auto;
 }
 
 /* ============================================================
@@ -1064,8 +1073,12 @@ a.nav_btn:hover .btn_roll_hover {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   will-change: transform, opacity;
   transform-origin: center bottom;
-  opacity: 0;
-  transform: scale(0);
+  /*
+   * No hidden starting state here. The avatars pop in via data-animate="pop"
+   * on .hero_avatar_stack, and motion.css keeps them hidden until then. A
+   * built-in opacity:0/scale(0) would be what GSAP animates *towards* (and
+   * would leave them invisible for good if the script ever failed to run).
+   */
   transition: margin-left 0.35s ease;
 }
 
@@ -1152,4 +1165,4 @@ a.nav_btn:hover .btn_roll_hover {
   padding-top: 34px;
 }
 
-
+

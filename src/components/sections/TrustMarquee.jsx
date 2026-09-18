@@ -9,12 +9,12 @@ export function TrustMarquee({ settings, logos = [] }) {
       <div className="padding-global">
         <div className="container-large">
           <div className="trust_main_wrapper">
-            <h2 className="heading-style-h4" data-aos="fade-up">
+            <h2 className="heading-style-h4" data-animate="words">
               <span className="block_line">{settings.trustHeadingLine1}</span>{' '}
               <span className="trust_title_span">{settings.trustHeadingLine2}</span>
             </h2>
 
-            <div className="trust_wrapper" data-aos="fade-up" data-aos-delay="100">
+            <div className="trust_wrapper" data-animate="fade-up" data-animate-delay="200">
               <Marquee>
                 {logos.map((logo) => (
                   <div className="splide__slide" key={logo._id}>

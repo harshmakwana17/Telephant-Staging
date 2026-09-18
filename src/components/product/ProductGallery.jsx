@@ -1,4 +1,4 @@
-import { imageUrl, imageSrcSet, imageAlt } from '@/sanity/image'
+import { imageUrl, imageSrcSet, imageAlt, imageSize } from '@/sanity/image'
 
 /**
  * Rebuilds the export's gallery layout from a flat list of images.
@@ -7,8 +7,12 @@ import { imageUrl, imageSrcSet, imageAlt } from '@/sanity/image'
  * .product_card_img_wrap, while consecutive half-width shots are wrapped
  * together in a .product_card_wrap row. Each gallery image carries a `layout`
  * field in Sanity, and runs of `half` are grouped here.
+ *
+ * Any other props (e.g. data-animate) go on .product_card_img_wrap. Don't wrap
+ * the gallery in another element instead: .product_card_img_wrap has to be the
+ * direct flex child of .product_card_wrapper to get its width.
  */
-export function ProductGallery({ gallery = [], title }) {
+export function ProductGallery({ gallery = [], title, ...rest }) {
   if (!gallery.length) return null
 
   const rows = []
@@ -32,7 +36,7 @@ export function ProductGallery({ gallery = [], title }) {
   flushHalfRun()
 
   return (
-    <div className="product_card_img_wrap">
+    <div className="product_card_img_wrap" {...rest}>
       {rows.map((row, rowIndex) =>
         row.type === 'full' ? (
           <GalleryImage
@@ -68,6 +72,7 @@ function GalleryImage({ image, title, className }) {
       src={src}
       srcSet={imageSrcSet(image)}
       sizes="(max-width: 1418px) 100vw, 1418px"
+      {...imageSize(image, 1600)}
       loading="lazy"
       alt={imageAlt(image, title)}
       className={className}

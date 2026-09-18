@@ -5,8 +5,10 @@ import Link from 'next/link'
  * div inside the anchor, and the CSS targets that structure, so it is kept.
  *
  * variant: 'default' | 'primary' | 'secondary'
+ *
+ * Any other props (e.g. data-animate) are passed through to the link.
  */
-export function Button({ href = '#', variant = 'default', size, className = '', children }) {
+export function Button({ href = '#', variant = 'default', size, className = '', children, ...rest }) {
   const classes = [
     'button',
     variant === 'primary' && 'is-primary',
@@ -20,7 +22,7 @@ export function Button({ href = '#', variant = 'default', size, className = '', 
   const isText = typeof children === 'string' || typeof children === 'number'
 
   return (
-    <Link href={href} className={`${classes} w-inline-block`}>
+    <Link href={href} className={`${classes} w-inline-block`} {...rest}>
       {isText ? (
         <span className="btn_roll_wrapper">
           <span className="btn_roll_ghost" aria-hidden="true">

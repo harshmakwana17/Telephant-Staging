@@ -30,19 +30,27 @@ export function ProductGrid({
       <div className="padding-global">
         <div className="container-large">
           <div className="template_wrapper">
-            <div className="template_heading_wrap" data-aos="fade-up">
+            <div className="template_heading_wrap">
               <div className="template_heading">
-                <div>{eyebrow}</div>
-                <h2 className="heading-style-h3">{heading}</h2>
+                <div data-animate="fade-up">{eyebrow}</div>
+                <h2 className="heading-style-h3" data-animate="words" data-animate-delay="80">
+                  {heading}
+                </h2>
               </div>
-              <Button href={viewAllHref} variant="secondary" className="has-animated-underline">
+              <Button
+                href={viewAllHref}
+                variant="secondary"
+                className="has-animated-underline"
+                data-animate="fade-up"
+                data-animate-delay="200"
+              >
                 View All
               </Button>
             </div>
 
-            <div className={grid}>
-              {products.map((product, index) => (
-                <div key={product._id || product.slug} data-aos="fade-up" data-aos-delay={(index % 4) * 100}>
+            <div className={grid} data-animate="stagger">
+              {products.map((product) => (
+                <div key={product._id || product.slug}>
                   <TemplateCard product={product} />
                 </div>
               ))}

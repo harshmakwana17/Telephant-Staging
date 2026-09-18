@@ -71,7 +71,7 @@ export default async function ProductPage({ params }) {
         <div className="padding-global">
           <div className="container-large">
             <div className="product_wrapper">
-              <div className="breadcrumb_wrapper" data-aos="fade-up">
+              <div className="breadcrumb_wrapper" data-animate="fade-up">
                 <Link href="/" className="breadcrumb_link">
                   Home
                 </Link>
@@ -86,20 +86,22 @@ export default async function ProductPage({ params }) {
               </div>
 
               <div className="product_card_wrapper">
-                <div data-aos="fade-up">
-                  <ProductGallery gallery={product.gallery} title={product.title} />
-                </div>
+                <ProductGallery
+                  gallery={product.gallery}
+                  title={product.title}
+                  data-animate="fade-up"
+                />
 
                 <div className="product_card_content_wrap">
                   <div className="product_content_wrap">
                     <div className="product_content_fp">
                       {product.badge ? (
-                        <div className="product_tag" data-aos="fade-up" data-aos-delay="0">
+                        <div className="product_tag" data-animate="fade-up" data-animate-delay="0">
                           <div>{product.badge}</div>
                         </div>
                       ) : null}
 
-                      <div className="product_review_wrap" data-aos="fade-up" data-aos-delay="50">
+                      <div className="product_review_wrap" data-animate="fade-up" data-animate-delay="50">
                         <StarRatingIcon />
                         <div>{product.reviewCount} reviews</div>
                         {product.satisfactionNote ? (
@@ -109,16 +111,16 @@ export default async function ProductPage({ params }) {
 
                       <h1
                         className="heading-style-h2 is-small-size"
-                        data-aos="fade-up"
-                        data-aos-delay="100"
+                        data-animate="words"
+                        data-animate-delay="100"
                         style={{ fontFamily: 'Satoshi, Arial, sans-serif' }}
                       >
                         {product.title}
                       </h1>
-                      <div data-aos="fade-up" data-aos-delay="150">{product.shortDescription}</div>
+                      <div data-animate="fade-up" data-animate-delay="150">{product.shortDescription}</div>
 
                       {(product.tags || []).length > 0 ? (
-                        <div data-aos="fade-up" data-aos-delay="200">
+                        <div data-animate="fade-up" data-animate-delay="200">
                           <Marquee speed={0.35}>
                             {product.tags.map((tag) => (
                               <div className="splide__slide" key={tag}>
@@ -138,7 +140,7 @@ export default async function ProductPage({ params }) {
                       />
 
                       {(product.benefits || []).length > 0 ? (
-                        <div className="benifit_wrap" data-aos="fade-up" data-aos-delay="400">
+                        <div className="benifit_wrap" data-animate="stagger" data-animate-delay="400">
                           {product.benefits.map((benefit) => {
                             const icon = imageUrl(benefit.icon, 64)
                             return (

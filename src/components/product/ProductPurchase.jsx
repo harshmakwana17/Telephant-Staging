@@ -45,7 +45,7 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
   return (
     <>
       {licenses.length > 0 ? (
-        <div className="liecence_type_block" data-aos="fade-up" data-aos-delay="250">
+        <div className="liecence_type_block" data-animate="fade-up" data-animate-delay="250">
           <div>Licence Type</div>
           <div className="liecence_wrapper">
             {licenses.map((license) => (
@@ -74,8 +74,8 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
         type="button"
         className="button buy-now-btn"
         onClick={handleBuy}
-        data-aos="fade-up"
-        data-aos-delay="300"
+        data-animate="fade-up"
+        data-animate-delay="300"
       >
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25em' }}>
           <span>TOTAL [</span>
@@ -99,7 +99,7 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
       </button>
 
       {addOns.length > 0 ? (
-        <div className="add_plan_block" data-aos="fade-up" data-aos-delay="350">
+        <div className="add_plan_block" data-animate="fade-up" data-animate-delay="350">
           <div>Add ons Plan</div>
           <div className="add_plan_wrapper">
             {addOns.map((addOn) => (

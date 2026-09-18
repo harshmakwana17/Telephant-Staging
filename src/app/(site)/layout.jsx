@@ -8,11 +8,13 @@ import '@/styles/css/webflow.css'
 import '@/styles/css/telephant.webflow.css'
 import '@/styles/form.css'
 import '@/styles/globals.css'
+import '@/styles/motion.css'
 
-import { AosProvider } from '@/components/ui/AosProvider'
 import { CustomCursor } from '@/components/ui/CustomCursor'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
+import { ScrollAnimations } from '@/components/motion/ScrollAnimations'
+import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { getSiteSettings } from '@/lib/content'
 
 export default async function SiteLayout({ children }) {
@@ -24,7 +26,15 @@ export default async function SiteLayout({ children }) {
       <Navbar settings={settings} />
       <main className="main-wrapper">{children}</main>
       <Footer settings={settings} />
-      <AosProvider />
+      <SmoothScroll />
+      <ScrollAnimations />
+      {/* Without JavaScript the engine never runs; show everything at once
+          instead of waiting for motion.css's 4s fallback. */}
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: '<style>[data-animate]{visibility:visible!important;animation:none!important}</style>',
+        }}
+      />
     </div>
   )
 }

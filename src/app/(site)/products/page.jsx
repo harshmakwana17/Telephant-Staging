@@ -17,16 +17,18 @@ export default async function ProductsPage() {
         <div className="padding-global">
           <div className="container-large">
             <div className="template_wrapper">
-              <div className="template_heading_wrap" data-aos="fade-up">
+              <div className="template_heading_wrap">
                 <div className="template_heading">
-                  <div>Browse</div>
-                  <h1 className="heading-style-h3">All Templates</h1>
+                  <div data-animate="fade-up">Browse</div>
+                  <h1 className="heading-style-h3" data-animate="words" data-animate-delay="80">
+                    All Templates
+                  </h1>
                 </div>
               </div>
 
-              <div className="most_popular_template">
-                {products.map((product, index) => (
-                  <div key={product._id || product.slug} data-aos="fade-up" data-aos-delay={(index % 4) * 100}>
+              <div className="most_popular_template" data-animate="stagger">
+                {products.map((product) => (
+                  <div key={product._id || product.slug}>
                     <TemplateCard product={product} />
                   </div>
                 ))}

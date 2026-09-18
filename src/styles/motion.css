@@ -1,0 +1,31 @@
+/*
+ * Motion - pairs with src/components/motion/ScrollAnimations.jsx.
+ *
+ * Elements marked data-animate stay hidden until the engine has set their
+ * start state and marked them data-animate-init. Without this they would
+ * render in their final position, then jump back to hidden when the engine
+ * runs after hydration, then animate in - a visible flash.
+ *
+ * Only imported by the (site) layout, which is where the engine is mounted.
+ * Don't add data-animate to pages outside it (e.g. not-found) - nothing would
+ * reveal them until the fallback below.
+ */
+
+/* Reduced-motion users are excluded here, so for them nothing is ever hidden. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-animate]:not([data-animate-init]) {
+    visibility: hidden;
+    /*
+     * Safety net: if the engine never runs (a script error, a blocked
+     * bundle), reveal everything after 4s rather than leaving a blank page.
+     * The engine checks for this and won't re-hide what's already shown.
+     */
+    animation: motion-fallback 0s 4s forwards;
+  }
+}
+
+@keyframes motion-fallback {
+  to {
+    visibility: visible;
+  }
+}

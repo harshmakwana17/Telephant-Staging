@@ -12,6 +12,9 @@ export function RollingText({
   words = ['Founders', 'Startups', 'Agencies', 'Bootstraps'],
   interval = 500,
   className = 'grey-clr',
+  // Milliseconds. When set, the word rises into view inside the box's own
+  // mask as a scroll animation (see components/motion/ScrollAnimations).
+  revealDelay,
 }) {
   const [index, setIndex] = useState(0)
   const [prevIndex, setPrevIndex] = useState(0)
@@ -52,6 +55,10 @@ export function RollingText({
   const currentWord = words[index]
   const prevWord = words[prevIndex]
 
+  // .rico-roll-box clips (overflow: hidden), so the stage can rise inside it.
+  const revealProps =
+    revealDelay != null ? { 'data-animate': 'rise', 'data-animate-delay': revealDelay } : {}
+
   return (
     <span className={`rico-roll-box ${className}`}>
       {/* Invisible ghost of longest word reserves fixed max width to eliminate width twitch */}
@@ -59,7 +66,7 @@ export function RollingText({
         {longestWord}
       </span>
 
-      <span className="rico-roll-stage">
+      <span className="rico-roll-stage" {...revealProps}>
         {/* Outgoing Word (opacity 1 -> 0, translateY 0 -> -100%) */}
         <span className={`rico-roll-word ${isAnimating ? 'is-leaving' : 'is-active'}`}>
           {isAnimating ? prevWord : currentWord}

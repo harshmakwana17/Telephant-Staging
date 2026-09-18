@@ -6,8 +6,10 @@ export function LaunchCta({ settings }) {
       <div className="padding-global">
         <div className="container-large">
           <div className="launch_wrapper">
-            <h2 className="heading-style-h2" data-aos="fade-up">{settings.launchHeading}</h2>
-            <div className="button_wrapper" data-aos="fade-up" data-aos-delay="100">
+            <h2 className="heading-style-h2" data-animate="words">
+              {settings.launchHeading}
+            </h2>
+            <div className="button_wrapper" data-animate="fade-up" data-animate-delay="300">
               {(settings.launchButtons || []).map((button) => (
                 <Button
                   key={button.label}
