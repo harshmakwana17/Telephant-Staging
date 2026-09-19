@@ -65,13 +65,21 @@ export default async function ProductPage({ params }) {
   // falls back to the 3 newest other templates, as before.
   const moreTemplates = product.relatedProducts?.length ? product.relatedProducts : related
 
+  // The tag marquee only scrolls (and fills the row) when its content overflows
+  // the track. A handful of short tags doesn't, so Splide centres them and
+  // leaves a gap. Repeat the list to guarantee overflow at any width.
+  const tags = product.tags || []
+  const marqueeTags = tags.length
+    ? Array.from({ length: Math.ceil(16 / tags.length) }).flatMap(() => tags)
+    : []
+
   return (
     <>
       <section className="section_product_hero">
         <div className="padding-global">
           <div className="container-large">
             <div className="product_wrapper">
-              <div className="breadcrumb_wrapper" data-animate="fade-up">
+              <div className="breadcrumb_wrapper" data-animate="fade-up" data-animate-on="load">
                 <Link href="/" className="breadcrumb_link">
                   Home
                 </Link>
@@ -96,12 +104,12 @@ export default async function ProductPage({ params }) {
                   <div className="product_content_wrap">
                     <div className="product_content_fp">
                       {product.badge ? (
-                        <div className="product_tag" data-animate="fade-up" data-animate-delay="0">
+                        <div className="product_tag" data-animate="fade-up" data-animate-on="load" data-animate-delay="0">
                           <div>{product.badge}</div>
                         </div>
                       ) : null}
 
-                      <div className="product_review_wrap" data-animate="fade-up" data-animate-delay="50">
+                      <div className="product_review_wrap" data-animate="fade-up" data-animate-on="load" data-animate-delay="40">
                         <StarRatingIcon />
                         <div>{product.reviewCount} reviews</div>
                         {product.satisfactionNote ? (
@@ -112,18 +120,21 @@ export default async function ProductPage({ params }) {
                       <h1
                         className="heading-style-h2 is-small-size"
                         data-animate="words"
-                        data-animate-delay="100"
+                        data-animate-on="load"
+                        data-animate-delay="80"
                         style={{ fontFamily: 'Satoshi, Arial, sans-serif' }}
                       >
                         {product.title}
                       </h1>
-                      <div data-animate="fade-up" data-animate-delay="150">{product.shortDescription}</div>
+                      <div data-animate="fade-up" data-animate-on="load" data-animate-delay="110">
+                        {product.shortDescription}
+                      </div>
 
-                      {(product.tags || []).length > 0 ? (
-                        <div data-animate="fade-up" data-animate-delay="200">
+                      {marqueeTags.length > 0 ? (
+                        <div data-animate="fade-up" data-animate-on="load" data-animate-delay="130">
                           <Marquee speed={0.35}>
-                            {product.tags.map((tag) => (
-                              <div className="splide__slide" key={tag}>
+                            {marqueeTags.map((tag, index) => (
+                              <div className="splide__slide" key={`${tag}-${index}`}>
                                 <div className="product_marquee_wrap">
                                   <div className="product_marquee_dot" />
                                   <div>{tag}</div>

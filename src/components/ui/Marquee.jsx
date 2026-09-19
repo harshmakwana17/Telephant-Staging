@@ -23,7 +23,9 @@ export function Marquee({ className = '', speed = 1, children }) {
     const splide = new Splide(rootRef.current, {
       type: 'loop',
       drag: 'free',
-      focus: 'center',
+      // No `focus: 'center'`: centring a list that doesn't overflow the track
+      // pushes it inward and leaves a gap. A marquee should sit flush from the
+      // start and scroll; the caller repeats short content so it overflows.
       autoWidth: true,
       arrows: false,
       pagination: false,

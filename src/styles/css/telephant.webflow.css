@@ -3147,7 +3147,7 @@ figcaption {
 
 .section_product_hero {
   padding-top: 8.5rem;
-  padding-bottom: 13.625rem;
+  padding-bottom: 6.25rem;
 }
 
 .product_wrapper {
@@ -3173,6 +3173,8 @@ figcaption {
   letter-spacing: var(--letter-spacing--tighter);
   line-height: 1.375;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .breadcrumb_block {
@@ -3758,6 +3760,7 @@ figcaption {
   }
 
   .section_product_hero {
+    padding-top: 6.5rem;
     padding-bottom: 5rem;
   }
 
@@ -3925,7 +3928,7 @@ figcaption {
   }
 
   .breadcrumb_wrapper {
-    gap: 0.625rem;
+    gap: 0.5rem;
     font-size: 0.875rem;
   }
   .breadcrumb_block {

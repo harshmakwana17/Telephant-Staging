@@ -86,12 +86,13 @@
    ============================================================ */
 
 /* Accessible focus styles for keyboard users, customizable via the Variables panel */
-[tabindex]:not([tabindex='-1']):focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible,
 button:focus-visible,
 a:focus-visible,
-[role='button']:focus-visible,
-input[type='file']:focus-visible {
-  outline: var(--_sizes---focus--width, 2px) solid var(--_theme---system--focus-state, #005fcc);
+[role="button"]:focus-visible,
+input[type="file"]:focus-visible {
+  outline: var(--_sizes---focus--width, 2px) solid
+    var(--_theme---system--focus-state, #005fcc);
   outline-offset: var(--_sizes---focus--offset, 2px);
 }
 
@@ -166,13 +167,13 @@ Uncomment to enable. Keep this message for futurehandoff clarity.
   }
 */
 /* Remove top margin from the first element inside any Rich Text block */
-.w-richtext> :not(div):first-child,
-.w-richtext>div:first-child> :first-child {
+.w-richtext > :not(div):first-child,
+.w-richtext > div:first-child > :first-child {
   margin-top: 0 !important;
 }
 
 /* Remove bottom margin from the last element inside any Rich Text block */
-.w-richtext> :last-child,
+.w-richtext > :last-child,
 .w-richtext ul li:last-child,
 .w-richtext ol li:last-child {
   margin-bottom: 0 !important;
@@ -284,7 +285,9 @@ input[name="Licence Type"] {
   height: 1.6em;
   line-height: 1.6em;
   color: #00000080;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
   transform: translateY(0%);
   opacity: 1;
 }
@@ -299,7 +302,9 @@ input[name="Licence Type"] {
   line-height: 1.6em;
   color: #00000080;
   font-weight: 500;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
   transform: translateY(100%);
   opacity: 0;
 }
@@ -369,7 +374,7 @@ input[name="Add ons Plan"]:checked::after {
    ============================================================ */
 
 @media (max-width: 991px) {
-    /* Hamburger button */
+  /* Hamburger button */
   .nav_menu-button {
     display: flex;
     align-items: center;
@@ -479,7 +484,6 @@ input[name="Add ons Plan"]:checked::after {
    ============================================================ */
 
 @media screen and (max-width: 1331px) {
-
   .product_card_wrapper,
   .product_card_wrap {
     flex-direction: column;
@@ -519,7 +523,7 @@ input[name="Add ons Plan"]:checked::after {
    */
   transition:
     height 0.4s ease,
-    opacity 0.3s ease
+    opacity 0.3s ease;
 }
 
 .navigation p {
@@ -529,13 +533,11 @@ input[name="Add ons Plan"]:checked::after {
 /* Open state */
 .dropdown.is-open .navigation {
   opacity: 1;
-
 }
 
 .dropdown.is-open .dropdown_toggle img {
   transform: rotate(180deg);
 }
-
 
 /* ============================================================
    React port additions
@@ -629,7 +631,7 @@ button.buy-now-btn {
 /* Text inside expanded cursor - Exact Framer inspect specs */
 .rico-cursor-text {
   margin: 0;
-  font-family: 'Instrument Sans', 'Instrument Sans Placeholder', sans-serif;
+  font-family: "Instrument Sans", "Instrument Sans Placeholder", sans-serif;
   font-size: 18px;
   font-weight: 400;
   letter-spacing: -0.4px;
@@ -886,22 +888,26 @@ button.buy-now-btn {
   transition: background-color 0.3s ease !important;
 }
 
-.liecence_type_select>*,
-.plan_select>* {
+.liecence_type_select > *,
+.plan_select > * {
   position: relative;
   z-index: 2;
 }
 
 .liecence_type_select::before,
 .plan_select::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -1px;
   left: -1px;
   right: -1px;
   bottom: -1px;
   border: 1px solid transparent;
-  border-image-source: linear-gradient(89.43deg, #000000 17.43%, #555555 92.28%);
+  border-image-source: linear-gradient(
+    89.43deg,
+    #000000 17.43%,
+    #555555 92.28%
+  );
   border-image-slice: 1;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -946,7 +952,7 @@ button.buy-now-btn {
 }
 
 .has-animated-underline::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1007,7 +1013,9 @@ button.buy-now-btn {
   height: 1.4em;
   line-height: 1.4em;
   color: inherit;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
   transform: translateY(0%);
   opacity: 1;
 }
@@ -1024,7 +1032,9 @@ button.buy-now-btn {
   height: 1.4em;
   line-height: 1.4em;
   color: inherit;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
   transform: translateY(100%);
   opacity: 0;
 }
@@ -1157,12 +1167,52 @@ a.nav_btn:hover .btn_roll_hover {
   background-color: #000;
   color: #fff;
   border: 1px solid #000;
+  /*
+   * `.button` sets `transition: all 0.3s` (for the hover colours). On the buy
+   * button that also transitions opacity and transform, which fights GSAP's
+   * on-load reveal: the button eases in from opacity 1 (a visible flash) and
+   * the motion stutters. Limit the transition to the hover properties so GSAP
+   * owns opacity/transform outright.
+   */
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+/* ============================================================
+   Breadcrumb - mobile eyebrow (slash-separated, no chevrons/pill)
+   ============================================================ */
+
+@media screen and (max-width: 767px) {
+  /* Drop the chevron icons and the boxed current-page pill; render a plain
+     "Home / Category / Title" eyebrow like the reference. The "/" comes from
+     each link, and the flex gap spaces it out on both sides. */
+  .breadcrumb_wrapper svg {
+    display: none;
+  }
+
+  .breadcrumb_link::after {
+    content: "/";
+    margin-left: 0.5rem;
+    color: #494949;
+  }
+
+  .breadcrumb_block {
+    color: #494949;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    font-weight: 400;
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
 }
 
 .section_footer .container-large {
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #dddddd;
   margin-top: -34px;
   padding-top: 34px;
 }
-
-

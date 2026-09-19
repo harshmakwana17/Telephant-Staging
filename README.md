@@ -86,10 +86,18 @@ sequence elements that enter together:
 | `pop` | Direct children scale up from their bottom edge with a bounce | The hero avatars |
 | `rise` | Slides up from below its parent, which must clip (`overflow: hidden`) | Content that already sits in a mask |
 
+Two more attributes tune the reveal:
+
+- `data-animate-on="load"` — reveal on load instead of on scroll (see below).
+- `data-animate-dur="500"` — override the preset's duration in milliseconds for
+  a snappier or slower reveal on that one element.
+
 Each animation starts when the element's top reaches 88% of the viewport and
 plays once per page view; moving to another page sets that page's elements up
-fresh. The hero is the reference for a sequenced entrance. New presets go in
-`PRESETS` in `ScrollAnimations.jsx` (dev builds warn about unknown names).
+fresh. The hero is the reference for a sequenced entrance. The product hero's
+right column (`page.jsx` + `ProductPurchase.jsx`) shows a tuned on-load sequence.
+New presets go in `PRESETS` in `ScrollAnimations.jsx` (dev builds warn about
+unknown names).
 
 **`words` only on text React never updates.** SplitText rebuilds the element's
 markup and puts it back afterwards by resetting `innerHTML`, which swaps out the

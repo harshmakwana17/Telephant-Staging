@@ -45,7 +45,7 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
   return (
     <>
       {licenses.length > 0 ? (
-        <div className="liecence_type_block" data-animate="fade-up" data-animate-delay="250">
+        <div className="liecence_type_block" data-animate="fade-up" data-animate-on="load" data-animate-delay="150" data-animate-dur="500">
           <div>Licence Type</div>
           <div className="liecence_wrapper">
             {licenses.map((license) => (
@@ -75,31 +75,31 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
         className="button buy-now-btn"
         onClick={handleBuy}
         data-animate="fade-up"
-        data-animate-delay="300"
+        data-animate-on="load"
+        data-animate-delay="150"
+        data-animate-dur="500"
       >
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25em' }}>
-          <span>TOTAL [</span>
-          <span className="btn_roll_wrapper">
-            <span className="btn_roll_ghost" aria-hidden="true">
-              {formatPrice(total)}
-            </span>
-            <span className="btn_roll_default">{formatPrice(total)}</span>
-            <span className="btn_roll_hover">{formatPrice(total)}</span>
+        {/* Label left, live total right - both roll on hover like every other
+            button (.button:hover .btn_roll_* in globals.css). */}
+        <div className="btn_roll_wrapper">
+          <span className="btn_roll_ghost" aria-hidden="true">
+            Purchase Now
           </span>
-          <span>]</span>
+          <span className="btn_roll_default">Purchase Now</span>
+          <span className="btn_roll_hover">Purchase Now</span>
         </div>
 
         <div className="btn_roll_wrapper">
           <span className="btn_roll_ghost" aria-hidden="true">
-            BUY NOW
+            {formatPrice(total)} USD
           </span>
-          <span className="btn_roll_default">BUY NOW</span>
-          <span className="btn_roll_hover">BUY NOW</span>
+          <span className="btn_roll_default">{formatPrice(total)} USD</span>
+          <span className="btn_roll_hover">{formatPrice(total)} USD</span>
         </div>
       </button>
 
       {addOns.length > 0 ? (
-        <div className="add_plan_block" data-animate="fade-up" data-animate-delay="350">
+        <div className="add_plan_block" data-animate="fade-up" data-animate-on="load" data-animate-delay="200" data-animate-dur="500">
           <div>Add ons Plan</div>
           <div className="add_plan_wrapper">
             {addOns.map((addOn) => (
