@@ -373,6 +373,45 @@ input[name="Add ons Plan"]:checked::after {
    Mobile navigation drawer (both pages)
    ============================================================ */
 
+/* Two-line hamburger -> X (no centre line), driven by .nav_container.menu-open. */
+.nav_burger {
+  position: relative;
+  display: inline-block;
+  width: 1.5rem;
+  height: 0.875rem;
+}
+
+.nav_burger_line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: #141414;
+  transition:
+    top 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav_burger_line:nth-child(1) {
+  top: 3px;
+}
+
+.nav_burger_line:nth-child(2) {
+  top: 11px;
+}
+
+/* Open: both lines meet in the centre and cross into an X. */
+.nav_container.menu-open .nav_burger_line:nth-child(1) {
+  top: 7px;
+  transform: rotate(45deg);
+}
+
+.nav_container.menu-open .nav_burger_line:nth-child(2) {
+  top: 7px;
+  transform: rotate(-45deg);
+}
+
 /* The drawer's contact block is mobile-only; the media query below reveals it. */
 .nav_menu_contact {
   display: none;
@@ -390,7 +429,7 @@ input[name="Add ons Plan"]:checked::after {
 
   .nav_brand-logo--mark {
     display: block;
-    height: 24px;
+    height: 1.5rem;
     width: auto;
   }
 
@@ -402,6 +441,8 @@ input[name="Add ons Plan"]:checked::after {
     cursor: pointer;
     position: relative;
     z-index: 10001;
+    width: 2rem;
+    height: 2rem;
   }
 
   /* Menu closed - full-screen overlay, flat (no radius/shadow). */
@@ -616,8 +657,8 @@ input[name="Add ons Plan"]:checked::after {
 }
 
 .dropdown_toggle img {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   transition: transform 0.4s ease;
 }
 
@@ -1345,6 +1386,7 @@ a.nav_btn:hover .btn_roll_hover {
   gap: 0.5rem 2.625rem;
 }
 
+
 .template_filter_tab {
   appearance: none;
   background: none;
@@ -1430,6 +1472,9 @@ a.nav_btn:hover .btn_roll_hover {
   .product_list {
     grid-template-columns: 1fr 1fr;
   }
+  .template_filter_tab {
+    font-size: 2.75rem;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -1458,8 +1503,7 @@ a.nav_btn:hover .btn_roll_hover {
 }
 
 @media screen and (max-width: 767px) {
-
-  .nav_btn{
+  .nav_btn {
     font-size: 0.75rem;
     padding: 0.5rem 1rem;
   }
@@ -1477,6 +1521,8 @@ a.nav_btn:hover .btn_roll_hover {
     transform: translateY(-100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+ 
 
   .product_list_stickybar.is-visible {
     transform: translateY(0);

@@ -6,7 +6,7 @@ import { TemplateCard } from '@/components/ui/TemplateCard'
 
 // "Recent" has no flag on the product - it is the newest by publish date.
 // Swap this for an isRecent flag or a date window later if the client wants.
-const RECENT_COUNT = 4
+const RECENT_COUNT = 3
 
 /**
  * Category filter for the templates listing, styled as the page's hero: big

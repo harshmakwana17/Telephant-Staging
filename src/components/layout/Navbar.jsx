@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
-import { MenuIcon } from '@/components/ui/Icons'
 import { imageUrl } from '@/sanity/image'
 
 /**
@@ -129,7 +128,12 @@ export function Navbar({ settings }) {
                 }
               }}
             >
-              <MenuIcon />
+              {/* Two-line hamburger that animates to an X when open (no centre
+                  line). Driven by .nav_container.menu-open in globals.css. */}
+              <span className="nav_burger" aria-hidden="true">
+                <span className="nav_burger_line" />
+                <span className="nav_burger_line" />
+              </span>
             </div>
           </div>
         </div>
