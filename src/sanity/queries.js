@@ -113,6 +113,8 @@ export const trustLogosQuery = groq`
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     ...,
+    favicon { ${imageFields} },
+    webclip { ${imageFields} },
     navLogo { ${imageFields} },
     heroSocialProofImage { ${imageFields} },
     footerLogo { ${imageFields} }

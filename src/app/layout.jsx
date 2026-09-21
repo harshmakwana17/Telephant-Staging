@@ -1,3 +1,6 @@
+import { getSiteSettings } from '@/lib/content'
+import { imageUrl } from '@/sanity/image'
+
 /**
  * Root layout - deliberately bare.
  *
@@ -22,18 +25,26 @@ function resolveSiteUrl() {
   return 'http://localhost:3000'
 }
 
-export const metadata = {
-  metadataBase: new URL(resolveSiteUrl()),
-  title: {
-    default: 'Telephant',
-    template: '%s | Telephant',
-  },
-  description:
-    'Telehealth & wellness website templates built by experts and designed to convert.',
-  icons: {
-    icon: '/favicon.png',
-    apple: '/images/webclip.png',
-  },
+export async function generateMetadata() {
+  // Favicon + web clip are editable in Sanity (siteSettings > Branding); each
+  // falls back to the built-in mark in /public when unset.
+  const settings = await getSiteSettings()
+  const favicon = imageUrl(settings.favicon) || '/favicon.png'
+  const webclip = imageUrl(settings.webclip) || '/images/webclip.png'
+
+  return {
+    metadataBase: new URL(resolveSiteUrl()),
+    title: {
+      default: 'Telephant',
+      template: '%s | Telephant',
+    },
+    description:
+      'Telehealth & wellness website templates built by experts and designed to convert.',
+    icons: {
+      icon: favicon,
+      apple: webclip,
+    },
+  }
 }
 
 export const viewport = {

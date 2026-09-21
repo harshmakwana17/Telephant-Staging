@@ -12,8 +12,25 @@ export const siteSettings = {
     { name: 'hero', title: 'Home hero' },
     { name: 'cta', title: 'CTA sections' },
     { name: 'footer', title: 'Footer' },
+    { name: 'branding', title: 'Branding & icons' },
   ],
   fields: [
+    {
+      name: 'favicon',
+      title: 'Favicon',
+      type: 'image',
+      group: 'branding',
+      description:
+        'Browser-tab icon. Square PNG or SVG (512x512 works well); transparency is fine. Falls back to the built-in mark.',
+    },
+    {
+      name: 'webclip',
+      title: 'Web clip (home-screen icon)',
+      type: 'image',
+      group: 'branding',
+      description:
+        'Icon shown when the site is saved to a phone home screen. Square 512x512 with a SOLID background (no transparency, or iOS shows it on black). Falls back to the built-in mark.',
+    },
     {
       name: 'navLogo',
       title: 'Header logo',
