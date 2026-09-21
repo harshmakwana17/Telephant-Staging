@@ -27,6 +27,13 @@ export const product = {
       description: 'Short name shown on grid cards, e.g. "Avexa". Falls back to Title.',
     },
     {
+      name: 'breadcrumbTitle',
+      title: 'Breadcrumb title',
+      type: 'string',
+      group: 'content',
+      description: 'Short title shown in the breadcrumb, e.g. "Tryeden". Falls back to Title.',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',

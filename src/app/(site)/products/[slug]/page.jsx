@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { ProductFaq } from '@/components/product/ProductFaq'
 import { ProductGallery } from '@/components/product/ProductGallery'
+import { ProductGalleryMobile } from '@/components/product/ProductGalleryMobile'
 import { ProductPurchase } from '@/components/product/ProductPurchase'
 import { LaunchCta } from '@/components/sections/LaunchCta'
 import { ProductGrid } from '@/components/sections/ProductGrid'
@@ -89,7 +90,7 @@ export default async function ProductPage({ params }) {
                 </Link>
                 <ChevronRightIcon />
                 <div className="breadcrumb_block">
-                  <div>{product.title}</div>
+                  <div>{product.breadcrumbTitle || product.title}</div>
                 </div>
               </div>
 
@@ -99,6 +100,7 @@ export default async function ProductPage({ params }) {
                   title={product.title}
                   data-animate="fade-up"
                 />
+                <ProductGalleryMobile gallery={product.gallery} title={product.title} />
 
                 <div className="product_card_content_wrap">
                   <div className="product_content_wrap">

@@ -50,8 +50,21 @@ export function Navbar({ settings }) {
             className={`nav_container${open ? ' menu-open' : ''}`}
           >
             <Link href="/" className="nav_brand w-inline-block">
+              {/* Full wordmark on desktop, compact mark on mobile (CSS swaps them). */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="lazy" src={logo} alt="Telephant" className="nav_brand-logo" />
+              <img
+                loading="lazy"
+                src={logo}
+                alt="Telephant"
+                className="nav_brand-logo nav_brand-logo--full"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                loading="lazy"
+                src="/images/nav-logo-mark.svg"
+                alt="Telephant"
+                className="nav_brand-logo nav_brand-logo--mark"
+              />
             </Link>
 
             <div className="nav_menu">
@@ -68,6 +81,23 @@ export function Navbar({ settings }) {
                   </Link>
                 ))}
               </div>
+
+              {/* Contact block pinned to the bottom of the full-screen mobile
+                  drawer; hidden on desktop via CSS. */}
+              {settings.navContactEmail ? (
+                <div className="nav_menu_contact">
+                  <div className="nav_menu_contact-label">
+                    {settings.contactEyebrow || 'Get in Touch'}
+                  </div>
+                  <a
+                    href={`mailto:${settings.navContactEmail}`}
+                    className="nav_menu_contact-email"
+                    onClick={() => setOpen(false)}
+                  >
+                    {settings.navContactEmail}
+                  </a>
+                </div>
+              ) : null}
             </div>
 
             {settings.navButton?.label ? (

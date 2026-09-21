@@ -1,5 +1,5 @@
-import { LaunchCta } from '@/components/sections/LaunchCta'
-import { TemplateCard } from '@/components/ui/TemplateCard'
+import { GetInTouch } from '@/components/sections/GetInTouch'
+import { TemplateFilter } from '@/components/product/TemplateFilter'
 import { getAllProducts, getSiteSettings } from '@/lib/content'
 
 export const metadata = {
@@ -13,32 +13,15 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <section className="section_most_popular">
+      <section className="product_list-hero">
         <div className="padding-global">
           <div className="container-large">
-            <div className="template_wrapper">
-              <div className="template_heading_wrap">
-                <div className="template_heading">
-                  <div data-animate="fade-up">Browse</div>
-                  <h1 className="heading-style-h3" data-animate="words" data-animate-delay="80">
-                    All Templates
-                  </h1>
-                </div>
-              </div>
-
-              <div className="most_popular_template" data-animate="stagger">
-                {products.map((product) => (
-                  <div key={product._id || product.slug}>
-                    <TemplateCard product={product} />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <TemplateFilter products={products} />
           </div>
         </div>
       </section>
 
-      <LaunchCta settings={settings} />
+      <GetInTouch settings={settings} />
     </>
   )
 }

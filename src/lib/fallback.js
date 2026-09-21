@@ -10,12 +10,15 @@
 export const fallbackSettings = {
   navLogo: '/images/Frame-2147228265.svg',
   navLinks: [
-    { label: 'Browse templates', href: '/products' },
+    { label: 'Templates', href: '/products' },
+    { label: 'About', href: '#' },
     { label: 'Customise', href: '#' },
-    { label: 'Blog', href: '#' },
     { label: 'Support', href: '#' },
   ],
-  navButton: { label: 'Contact Now', href: '#' },
+  navButton: { label: 'Launch your Brand', href: '#' },
+  // Shown only in the mobile nav drawer; kept separate from footerEmail so the
+  // footer address is unaffected.
+  navContactEmail: 'help@telephant.store',
 
   heroTagText: 'Built by Experts.',
   heroTagAccent: 'Designed to Convert.',

@@ -373,7 +373,27 @@ input[name="Add ons Plan"]:checked::after {
    Mobile navigation drawer (both pages)
    ============================================================ */
 
+/* The drawer's contact block is mobile-only; the media query below reveals it. */
+.nav_menu_contact {
+  display: none;
+}
+
+/* Compact logo mark swaps in at the mobile (hamburger) breakpoint. */
+.nav_brand-logo--mark {
+  display: none;
+}
+
 @media (max-width: 991px) {
+  .nav_brand-logo--full {
+    display: none;
+  }
+
+  .nav_brand-logo--mark {
+    display: block;
+    height: 24px;
+    width: auto;
+  }
+
   /* Hamburger button */
   .nav_menu-button {
     display: flex;
@@ -384,42 +404,54 @@ input[name="Add ons Plan"]:checked::after {
     z-index: 10001;
   }
 
-  /* Menu closed */
+  /* Menu closed - full-screen overlay, flat (no radius/shadow). */
   .nav_menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     gap: 0;
-    padding: 12px;
+    /* Top padding clears the header row (logo + close button). */
+    padding: 6.5rem 1.5rem 2.5rem;
     background: #fff;
-    border-radius: 16px;
+    border-radius: 0;
+    box-shadow: none;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-15px) scale(0.98);
-    transform-origin: top;
+    transform: translateY(-12px);
     transition:
       opacity 0.35s ease,
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       visibility 0.35s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .nav_menu-links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   /* Menu links */
   .nav_menu_link {
-    width: 100%;
-    padding: 16px 14px;
+    width: auto;
+    padding: 0;
+    font-size: 3.125rem;
+    line-height: 1.45;
+    text-align: left;
     opacity: 0;
-    transform: translateY(-8px);
+    font-weight: 400;
+    transform: translateY(-0.5rem);
     transition:
       opacity 0.3s ease,
       transform 0.4s ease,
-      background-color 0.25s ease;
+      color 0.25s ease;
   }
 
   .nav_menu_link::after {
@@ -427,8 +459,45 @@ input[name="Add ons Plan"]:checked::after {
   }
 
   .nav_menu_link:hover {
-    background: rgba(0, 0, 0, 0.04);
-    border-radius: 10px;
+    color: #494949;
+  }
+
+  /* Get-in-touch block, pinned to the bottom of the drawer. */
+  .nav_menu_contact {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 0.3s ease,
+      transform 0.4s ease;
+    transition-delay: 0.25s;
+  }
+
+  .nav_menu_contact-label {
+    color: #888888;
+    margin-bottom: 0.625rem;
+    font-size: 01.25rem;
+    line-height: 1.62;
+    letter-spacing: -0.04em;
+    text-transform: capitalize;
+  }
+
+  .nav_menu_contact-email {
+    color: #000000;
+    text-decoration: underline;
+    text-underline-offset: 0.125rem;
+    font-size: 01.375rem;
+    line-height: 1.62;
+    letter-spacing: -0.04em;
+    text-transform: lowercase;
+  }
+
+  .nav_container.menu-open .nav_menu_contact {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* =========================
@@ -477,6 +546,47 @@ input[name="Add ons Plan"]:checked::after {
 .product_card_img {
   width: 100%;
   height: auto;
+}
+
+/* ============================================================
+   Product gallery - mobile carousel (ProductGalleryMobile)
+   ============================================================ */
+
+/* Hidden by default; the mobile breakpoint below swaps it in. */
+.product_gallery_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 991px) {
+  /* Swap the stacked gallery for the autoplay carousel on tablet + mobile. */
+  .product_card_img_wrap {
+    display: none;
+  }
+
+  /* The carousel's overflow:visible lets its off-screen slides extend the
+     document; clip the section at the viewport edge so the page can't scroll
+     sideways while the neighbouring slides still peek. */
+  .section_product_hero {
+    overflow-x: clip;
+  }
+
+  .product_gallery_mobile {
+    display: block;
+    width: 100%;
+  }
+
+  /* Overflow visible so the neighbouring slides peek past the track edge. */
+  .product_gallery_mobile .splide__track {
+    overflow: visible;
+  }
+
+  .product_gallery_mobile .splide__slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 10 / 7;
+    object-fit: cover;
+  }
 }
 
 /* ============================================================
@@ -1208,6 +1318,189 @@ a.nav_btn:hover .btn_roll_hover {
     display: block;
     overflow: visible;
     -webkit-line-clamp: unset;
+  }
+}
+
+/* ============================================================
+   Templates listing - category filter hero (All / Popular / ...)
+   ============================================================ */
+
+/* Real h1 for SEO; the visible title is the tabs. */
+.template_filter_sronly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.template_filter_tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 2.625rem;
+}
+
+.template_filter_tab {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: var(--font-family--heading);
+  font-size: var(--_typography---h2--h2-font-size);
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: var(--_typography---h2--h2-letter-spacing);
+  color: #00000033;
+  transition: color 0.35s ease;
+}
+
+.template_filter_tab:hover,
+.template_filter_tab:focus-visible,
+.template_filter_tab.is-active {
+  color: #000;
+  outline: none;
+}
+
+/* Underline slides in under the active tab's label (not the count). */
+.template_filter_label {
+  position: relative;
+  display: inline-block;
+}
+
+.template_filter_label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.05em;
+  height: 0.125rem;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.template_filter_tab.is-active .template_filter_label::after {
+  transform: scaleX(1);
+}
+
+/* Superscript count, kept muted whether or not the tab is active. */
+.template_filter_count {
+  margin-left: 0.2em;
+  font-size: 0.45em;
+  color: currentColor;
+  transition: inherit;
+  top: -1em;
+  letter-spacing: -0.02em;
+}
+
+.template_filter_empty {
+  color: #494949;
+}
+
+.product_list-hero {
+  padding-top: 10.375rem;
+  padding-bottom: 6.25rem;
+}
+
+.product_list {
+  grid-column-gap: 1rem;
+  grid-row-gap: 4rem;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  display: grid;
+}
+
+@media screen and (max-width: 991px) {
+  .product_list-hero {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+  }
+  .template_filter_tabs {
+    gap: 1rem 1.5rem;
+  }
+  .product_list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .product_list {
+    grid-template-columns: 1fr;
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 1.5rem;
+  }
+  /* Hero tabs stack vertically on mobile (they morph to the sticky bar below). */
+  .template_filter_tabs {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .template_filter_tab {
+    font-size: 1.25rem;
+  }
+}
+
+/* ============================================================
+   Templates listing - mobile sticky condensed filter bar
+   ============================================================ */
+
+/* Hidden by default; only the mobile breakpoint shows it. */
+.product_list_stickybar {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+
+  .nav_btn{
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .product_list_stickybar {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: #fff;
+    border-bottom: 1px solid #eaeaea;
+    /* Slides down from the top when the hero tabs scroll away. */
+    transform: translateY(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .product_list_stickybar.is-visible {
+    transform: translateY(0);
+  }
+
+  .product_list_stickybar_scroll {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 0.85rem 1.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+
+  .product_list_stickybar_scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product_list_stickybar .template_filter_tab {
+    font-size: 1.125rem;
+    white-space: nowrap;
+    flex: 0 0 auto;
   }
 }
 

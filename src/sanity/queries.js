@@ -59,6 +59,7 @@ export const productBySlugQuery = groq`
     _id,
     title,
     cardTitle,
+    breadcrumbTitle,
     "slug": slug.current,
     shortDescription,
     badge,
