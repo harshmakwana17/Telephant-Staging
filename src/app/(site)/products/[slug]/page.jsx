@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { ProductFaq } from '@/components/product/ProductFaq'
 import { ProductGallery } from '@/components/product/ProductGallery'
+import { ProductBenefitsSlider } from '@/components/product/ProductBenefitsSlider'
 import { ProductGalleryMobile } from '@/components/product/ProductGalleryMobile'
 import { ProductPurchase } from '@/components/product/ProductPurchase'
 import { LaunchCta } from '@/components/sections/LaunchCta'
@@ -19,7 +20,7 @@ import {
   getTestimonials,
   getTrustLogos,
 } from '@/lib/content'
-import { imageUrl, imageAlt } from '@/sanity/image'
+import { imageUrl } from '@/sanity/image'
 
 /** Pre-render every product at build time; new ones are added on first request. */
 export async function generateStaticParams() {
@@ -73,6 +74,8 @@ export default async function ProductPage({ params }) {
   const marqueeTags = tags.length
     ? Array.from({ length: Math.ceil(16 / tags.length) }).flatMap(() => tags)
     : []
+
+  const benefits = product.benefits || []
 
   return (
     <>
@@ -152,25 +155,10 @@ export default async function ProductPage({ params }) {
                         addOns={product.addOns || []}
                       />
 
-                      {(product.benefits || []).length > 0 ? (
-                        <div className="benifit_wrap" data-animate="stagger" data-animate-delay="400">
-                          {product.benefits.map((benefit) => {
-                            const icon = imageUrl(benefit.icon, 64)
-                            return (
-                              <div className="benifit_block" key={benefit._key}>
-                                {icon ? (
-                                  /* eslint-disable-next-line @next/next/no-img-element */
-                                  <img
-                                    src={icon}
-                                    loading="lazy"
-                                    alt={imageAlt(benefit.icon, '')}
-                                  />
-                                ) : null}
-                                <div>{benefit.label}</div>
-                              </div>
-                            )
-                          })}
-                        </div>
+                      {benefits.length > 0 ? (
+                        // Slider at every size so any number of benefits works
+                        // (a static row wraps/overflows once there are >4).
+                        <ProductBenefitsSlider benefits={benefits} />
                       ) : null}
 
                       <ProductFaq faqs={product.faqs || []} />

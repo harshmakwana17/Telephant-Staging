@@ -52,6 +52,16 @@ export function TemplateFilter({ products = [] }) {
     return () => io.disconnect()
   }, [])
 
+  // Reset to "All" when the Templates nav link is clicked (Navbar dispatches
+  // this). Clicking it while already on /products is a same-route navigation,
+  // so React keeps this component mounted and its active tab would otherwise
+  // persist.
+  useEffect(() => {
+    const reset = () => setActive('all')
+    window.addEventListener('template-filter:reset', reset)
+    return () => window.removeEventListener('template-filter:reset', reset)
+  }, [])
+
   // Keep the active tab centred in the sticky bar's horizontal scroll.
   useEffect(() => {
     const scroller = stickyScrollRef.current

@@ -24,8 +24,10 @@ gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
  *   rise     The element slides up from below inside its parent, which must
  *            clip (overflow: hidden) - for content that already sits in a mask.
  *
- *   data-animate-delay  Milliseconds, like AOS used. Sequence elements that
- *                       enter together (e.g. the hero) by staggering this.
+ *   data-animate-delay  Milliseconds, like AOS used. Currently disabled
+ *                       site-wide (the engine forces 0) - elements animate as
+ *                       soon as they're triggered. Kept in the markup so the
+ *                       sequencing can be re-enabled in one place if wanted.
  *
  *   data-animate-dur    Milliseconds. Overrides the preset's default duration
  *                       for a snappier (or slower) reveal on that element.
@@ -150,9 +152,13 @@ export function ScrollAnimations() {
         const alreadyShown = getComputedStyle(el).visibility === 'visible'
         const load = el.dataset.animateOn === 'load'
         const dur = el.dataset.animateDur ? Number(el.dataset.animateDur) / 1000 : undefined
+        // Sequencing delays are disabled site-wide - every element animates as
+        // soon as it's triggered. data-animate-delay is kept in the markup but
+        // ignored here.
+        const delay = 0
 
         if (preset && !alreadyShown) {
-          preset(el, (Number(el.dataset.animateDelay) || 0) / 1000, contextSafe, load, dur)
+          preset(el, delay, contextSafe, load, dur)
         } else if (!preset && process.env.NODE_ENV !== 'production') {
           console.warn(`[motion] unknown data-animate="${el.dataset.animate}"`, el)
         }

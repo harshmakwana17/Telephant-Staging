@@ -73,8 +73,16 @@ export function Navbar({ settings }) {
                     key={`${link.label}-${link.href}`}
                     href={link.href || '#'}
                     className="nav_menu_link"
-                    // Matches the export: tapping a link closes the drawer.
-                    onClick={() => setOpen(false)}
+                    // Closes the drawer. For the Templates link, also reset the
+                    // listing filter back to "All" - clicking it while already
+                    // on /products is a same-route nav, so the filter component
+                    // would otherwise keep its previous tab (e.g. Recent).
+                    onClick={() => {
+                      setOpen(false)
+                      if ((link.href || '').replace(/\/+$/, '') === '/products') {
+                        window.dispatchEvent(new Event('template-filter:reset'))
+                      }
+                    }}
                   >
                     {link.label}
                   </Link>

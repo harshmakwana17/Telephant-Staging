@@ -598,17 +598,17 @@ input[name="Add ons Plan"]:checked::after {
   display: none;
 }
 
+/* The gallery/benefits sliders use overflow:visible, whose off-screen slides
+   would extend the document; clip the section at the viewport edge so the page
+   can't scroll sideways while the neighbouring slides still peek. */
+.section_product_hero {
+  overflow-x: clip;
+}
+
 @media screen and (max-width: 991px) {
   /* Swap the stacked gallery for the autoplay carousel on tablet + mobile. */
   .product_card_img_wrap {
     display: none;
-  }
-
-  /* The carousel's overflow:visible lets its off-screen slides extend the
-     document; clip the section at the viewport edge so the page can't scroll
-     sideways while the neighbouring slides still peek. */
-  .section_product_hero {
-    overflow-x: clip;
   }
 
   .product_gallery_mobile {
@@ -628,6 +628,26 @@ input[name="Add ons Plan"]:checked::after {
     aspect-ratio: 10 / 7;
     object-fit: cover;
   }
+}
+
+/* ============================================================
+   Benefits - autoplay slide-by-slide slider (all breakpoints)
+   ============================================================ */
+
+.benifit_slider {
+  width: 100%;
+}
+
+/* Overflow visible so neighbouring benefits peek past the track edge. The
+   section clips at the viewport (below), so the page can't scroll sideways. */
+.benifit_slider .splide__track {
+  overflow: visible;
+}
+
+.benifit_slider .benifit_block {
+  width: 8.125rem;
+  margin: 0;
+  padding-inline: 0.75rem;
 }
 
 /* ============================================================
@@ -1489,7 +1509,7 @@ a.nav_btn:hover .btn_roll_hover {
     align-items: flex-start;
   }
   .template_filter_tab {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 }
 
