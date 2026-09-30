@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { Button } from '@/components/ui/Button'
 import { RollingText } from '@/components/ui/RollingText'
 import { imageUrl } from '@/sanity/image'
@@ -8,6 +10,14 @@ export function Hero({ settings }) {
   const socialProofImage = imageUrl(settings.heroSocialProofImage)
   const accentWord = settings.heroHeadingAccent || 'Agencies'
 
+  // Tag text (minus the arrow) - repeated across the roll copies.
+  const tagText = (
+    <>
+      {settings.heroTagText}{' '}
+      <span className="darkgrey-clr">{settings.heroTagAccent}</span>{' '}
+      {settings.heroTagOffer}
+    </>
+  )
 
   return (
     <section className="section_hero">
@@ -16,16 +26,25 @@ export function Hero({ settings }) {
           <div className="hero_main_wrap">
             <div className="hero_wrap">
               <div className="hero_heading">
-                <div className="hero_tag" data-animate="fade-up">
+                <Link href="/products" className="hero_tag" data-animate="fade-up">
                   <div className="hero_tag_content">
                     <div className="tag_dot" />
-                    <div>
-                      {settings.heroTagText}{' '}
-                      <span className="darkgrey-clr">{settings.heroTagAccent}</span>
-                    </div>
+                    {/* Text rolls on hover like the buttons; each copy shimmers
+                        (shiny-text). The arrow sits outside so it can slide. */}
+                    <span className="btn_roll_wrapper">
+                      <span className="btn_roll_ghost" aria-hidden="true">
+                        {tagText}
+                      </span>
+                      <span className="btn_roll_default shiny-text">{tagText}</span>
+                      <span className="btn_roll_hover shiny-text" aria-hidden="true">
+                        {tagText}
+                      </span>
+                    </span>
                   </div>
-                  <div>{settings.heroTagOffer} →</div>
-                </div>
+                  <span className="hero_tag_arrow" aria-hidden="true">
+                    →
+                  </span>
+                </Link>
 
                 {/* Split per part: SplitText rebuilds the markup it touches, so it only
                     gets the static text. RollingText re-renders every few

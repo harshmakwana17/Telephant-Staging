@@ -1214,6 +1214,7 @@ button.buy-now-btn {
 .button:hover .btn_roll_default,
 .button:hover .buy_now_roll_default,
 .nav_btn:hover .btn_roll_default,
+.hero_tag:hover .btn_roll_default,
 a.button:hover .btn_roll_default,
 a.button:hover .buy_now_roll_default,
 a.nav_btn:hover .btn_roll_default {
@@ -1224,6 +1225,7 @@ a.nav_btn:hover .btn_roll_default {
 .button:hover .btn_roll_hover,
 .button:hover .buy_now_roll_hover,
 .nav_btn:hover .btn_roll_hover,
+.hero_tag:hover .btn_roll_hover,
 a.button:hover .btn_roll_hover,
 a.button:hover .buy_now_roll_hover,
 a.nav_btn:hover .btn_roll_hover {
@@ -1568,6 +1570,63 @@ a.nav_btn:hover .btn_roll_hover {
     white-space: nowrap;
     flex: 0 0 auto;
   }
+}
+
+/* ============================================================
+   Shiny text (reactbits.dev/text-animations/shiny-text)
+   ============================================================ */
+
+/* A light band sweeps across the glyphs. The base text colour is
+   semi-transparent so the moving highlight (clipped to the text) shows
+   through - used on the hero tag over its dark pill. */
+.shiny-text {
+  color: #ffffff99;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shiny-text 4s linear infinite;
+}
+
+/* Let the accent shimmer with the rest instead of staying flat grey. */
+.shiny-text .darkgrey-clr {
+  color: inherit;
+}
+
+@keyframes shiny-text {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: -100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+  }
+}
+
+/* Hero tag is a link: the text rolls on hover (btn_roll rules above) and the
+   arrow slides right, like the buttons. */
+.hero_tag {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hero_tag_arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.hero_tag:hover .hero_tag_arrow {
+  transform: translateX(4px);
 }
 
 .section_footer .container-large {
