@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react'
  *
  * Checkout itself is a stub - see the TODO on handleBuy.
  */
-export function ProductPurchase({ licenses = [], addOns = [] }) {
+export function ProductPurchase({ licenses = [], addOns = [], purchaseLink = null }) {
   const [licenseKey, setLicenseKey] = useState(licenses[0]?._key ?? null)
   const [selectedAddOns, setSelectedAddOns] = useState([])
 
@@ -23,6 +23,44 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
       .reduce((sum, addOn) => sum + (addOn.price ?? 0), 0)
     return base + extras
   }, [licenses, licenseKey, addOns, selectedAddOns])
+
+  // The Purchase link depends on the selection. Each add-on link row targets one
+  // add-on or a combination; a row applies only when ALL its add-ons are ticked.
+  // The most specific matching row wins (most add-ons listed); ties break by the
+  // "Add-on plans" order. Falls back to the licence's own link, then the
+  // product-level link.
+  const href = useMemo(() => {
+    const license = licenses.find((l) => l._key === licenseKey)
+    const links = license?.addOnLinks || []
+
+    const selectedNames = new Set(
+      addOns.filter((a) => selectedAddOns.includes(a._key)).map((a) => a.name)
+    )
+    // Position of each add-on in the "Add-on plans" list, for tie-breaking.
+    const planIndex = new Map(addOns.map((a, i) => [a.name, i]))
+
+    let best = null
+    let bestCount = -1
+    let bestRank = Infinity
+    for (const link of links) {
+      // New field is an array of names; fall back to the old single-name field.
+      const required = link.addOns?.length ? link.addOns : link.addOn ? [link.addOn] : []
+      if (required.length === 0 || !link.url) continue
+      // Every add-on this row needs must be selected.
+      if (!required.every((name) => selectedNames.has(name))) continue
+      const rank = Math.min(...required.map((name) => planIndex.get(name) ?? Infinity))
+      // More add-ons = more specific = wins; ties break by Add-on plans order.
+      if (required.length > bestCount || (required.length === bestCount && rank < bestRank)) {
+        best = link.url
+        bestCount = required.length
+        bestRank = rank
+      }
+    }
+
+    return best || license?.purchaseLink || purchaseLink || null
+  }, [licenses, licenseKey, addOns, selectedAddOns, purchaseLink])
+
+  const isExternal = href ? /^https?:\/\//i.test(href) : false
 
   const toggleAddOn = (key) => {
     setSelectedAddOns((current) =>
@@ -70,33 +108,50 @@ export function ProductPurchase({ licenses = [], addOns = [] }) {
         </div>
       ) : null}
 
-      <button
-        type="button"
-        className="button buy-now-btn"
-        onClick={handleBuy}
-        data-animate="fade-up"
-        data-animate-on="load"
-        data-animate-delay="150"
-        data-animate-dur="500"
-      >
-        {/* Label left, live total right - both roll on hover like every other
-            button (.button:hover .btn_roll_* in globals.css). */}
-        <div className="btn_roll_wrapper">
-          <span className="btn_roll_ghost" aria-hidden="true">
-            Purchase Now
-          </span>
-          <span className="btn_roll_default">Purchase Now</span>
-          <span className="btn_roll_hover">Purchase Now</span>
-        </div>
+      {/* Label left, live total right - both roll on hover like every other
+          button (.button:hover .btn_roll_* in globals.css). Renders as a link
+          when the selection resolves to a URL, otherwise the checkout stub. */}
+      {(() => {
+        const inner = (
+          <>
+            <div className="btn_roll_wrapper">
+              <span className="btn_roll_ghost" aria-hidden="true">
+                Purchase Now
+              </span>
+              <span className="btn_roll_default">Purchase Now</span>
+              <span className="btn_roll_hover">Purchase Now</span>
+            </div>
 
-        <div className="btn_roll_wrapper">
-          <span className="btn_roll_ghost" aria-hidden="true">
-            {formatPrice(total)} USD
-          </span>
-          <span className="btn_roll_default">{formatPrice(total)} USD</span>
-          <span className="btn_roll_hover">{formatPrice(total)} USD</span>
-        </div>
-      </button>
+            <div className="btn_roll_wrapper">
+              <span className="btn_roll_ghost" aria-hidden="true">
+                {formatPrice(total)} USD
+              </span>
+              <span className="btn_roll_default">{formatPrice(total)} USD</span>
+              <span className="btn_roll_hover">{formatPrice(total)} USD</span>
+            </div>
+          </>
+        )
+        const animate = {
+          'data-animate': 'fade-up',
+          'data-animate-on': 'load',
+          'data-animate-delay': '150',
+          'data-animate-dur': '500',
+        }
+        return href ? (
+          <a
+            href={href}
+            className="button buy-now-btn"
+            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            {...animate}
+          >
+            {inner}
+          </a>
+        ) : (
+          <button type="button" className="button buy-now-btn" onClick={handleBuy} {...animate}>
+            {inner}
+          </button>
+        )
+      })()}
 
       {addOns.length > 0 ? (
         <div className="add_plan_block" data-animate="fade-up" data-animate-on="load" data-animate-delay="200" data-animate-dur="500">

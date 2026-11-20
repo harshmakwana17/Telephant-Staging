@@ -153,6 +153,7 @@ export default async function ProductPage({ params }) {
                       <ProductPurchase
                         licenses={product.licenses || []}
                         addOns={product.addOns || []}
+                        purchaseLink={product.purchaseLink}
                       />
 
                       {benefits.length > 0 ? (

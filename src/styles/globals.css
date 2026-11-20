@@ -589,6 +589,19 @@ input[name="Add ons Plan"]:checked::after {
   height: auto;
 }
 
+/* Gallery robustness: a row of half-width images must shrink and, if needed,
+   wrap - never overlap or overflow - no matter how many are grouped together
+   or what their aspect ratios are. (Flex items default to min-width:auto, which
+   stops them shrinking below their intrinsic size and causes the overlap.) */
+.product_card_wrap {
+  flex-wrap: wrap;
+}
+
+.product_card_wrap .product_card_img {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
 /* ============================================================
    Product gallery - mobile carousel (ProductGalleryMobile)
    ============================================================ */
@@ -729,11 +742,11 @@ input[name="Add ons Plan"]:checked::after {
 }
 
 /*
- * "Buy now" is a <button> rather than an <a> because it triggers an action
- * instead of navigating. These reset the UA button defaults that `.button`
- * does not already override.
+ * "Buy now" renders as an <a> when the selection resolves to a purchase link,
+ * otherwise a <button> (checkout stub). Class selector so both get the
+ * full-width + UA reset; harmless on the anchor.
  */
-button.buy-now-btn {
+.buy-now-btn {
   width: 100%;
   font-family: inherit;
   cursor: pointer;

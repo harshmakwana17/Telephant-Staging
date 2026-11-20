@@ -117,6 +117,14 @@ export const product = {
     },
 
     {
+      name: 'purchaseLink',
+      title: 'Purchase link (fallback)',
+      type: 'url',
+      group: 'pricing',
+      description:
+        'Used by "Purchase Now" only when the selected licence has no link of its own. Set the real links on each Licence option below.',
+    },
+    {
       name: 'licenses',
       title: 'License options',
       type: 'array',
@@ -144,6 +152,60 @@ export const product = {
               title: 'Price (USD)',
               type: 'number',
               validation: (Rule) => Rule.required().min(0),
+            },
+            {
+              name: 'purchaseLink',
+              title: 'Purchase link (no add-ons)',
+              type: 'url',
+              description:
+                'Where "Purchase Now" goes when this licence is selected with NO add-ons.',
+            },
+            {
+              name: 'addOnLinks',
+              title: 'Purchase links with add-ons',
+              type: 'array',
+              description:
+                'Where "Purchase Now" goes when add-ons are selected with this licence. Add one row per add-on, or per combination of add-ons. When the visitor\'s selected add-ons match a row, that row\'s link is used. If several rows match, the row listing the MOST add-ons wins (so a "Branding + Development" row beats a "Branding" row when both are ticked). If two rows are equally specific, the one whose add-on comes first in the "Add-on plans" list wins.',
+              of: [
+                {
+                  type: 'object',
+                  name: 'addOnLink',
+                  fields: [
+                    {
+                      name: 'addOns',
+                      title: 'Add-on(s) for this link',
+                      type: 'array',
+                      of: [{ type: 'string' }],
+                      options: { layout: 'tags' },
+                      description:
+                        'List one or more add-on names. The link is used when ALL of them are selected together. For a single add-on, list just that one. Names must match the Add-on plan Names exactly.',
+                      validation: (Rule) => Rule.required().min(1),
+                    },
+                    {
+                      name: 'url',
+                      title: 'Link',
+                      type: 'url',
+                      validation: (Rule) => Rule.required(),
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      a0: 'addOns.0',
+                      a1: 'addOns.1',
+                      a2: 'addOns.2',
+                      url: 'url',
+                      legacy: 'addOn',
+                    },
+                    prepare: ({ a0, a1, a2, url, legacy }) => {
+                      const names = [a0, a1, a2].filter(Boolean)
+                      return {
+                        title: names.length ? names.join(' + ') : legacy || 'No add-on selected',
+                        subtitle: url,
+                      }
+                    },
+                  },
+                },
+              ],
             },
           ],
           preview: {
