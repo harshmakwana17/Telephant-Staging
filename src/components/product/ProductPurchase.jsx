@@ -1,19 +1,68 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Link from 'next/link'
+
+import { HowItWorksDrawer, InfoIcon } from './HowItWorksDrawer'
+
+const CONTACT_EMAIL = 'hello@telephant.store'
+
+function CheckIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path
+        d="M2.4 6.3l2.3 2.3 4.9-5.2"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function CodeIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M8.5 7L4 12l4.5 5M15.5 7L20 12l-4.5 5"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 /**
- * Licence picker, add-on checkboxes and the live total.
+ * Licence picker, add-on plans and the live total.
  *
- * The `name` attributes are load-bearing: the export's custom CSS styles these
- * controls via `input[name="Licence Type"]` and `input[name="Add ons Plan"]`,
- * so renaming them silently drops the styling.
+ * The licence radio `name="Licence Type"` is load-bearing: the export's custom
+ * CSS styles it via `input[name="Licence Type"]`.
+ *
+ * Add-ons: "Update Branding" is a selectable plan that adds to the Purchase Now
+ * total and drives the purchase link; "Get Frontend Development" is an on-demand
+ * enquiry (Contact Us), not added to the cart. The "How It Works?" trigger and
+ * the Update Branding info icon open the shared process drawer.
  *
  * Checkout itself is a stub - see the TODO on handleBuy.
  */
 export function ProductPurchase({ licenses = [], addOns = [], purchaseLink = null }) {
   const [licenseKey, setLicenseKey] = useState(licenses[0]?._key ?? null)
   const [selectedAddOns, setSelectedAddOns] = useState([])
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerTab, setDrawerTab] = useState('branding')
+
+  const openDrawer = (tab = 'branding') => {
+    setDrawerTab(tab)
+    setDrawerOpen(true)
+  }
+
+  // First add-on is the selectable "Update Branding" plan; second is the
+  // on-demand "Get Frontend Development" enquiry card.
+  const branding = addOns[0] || null
+  const frontend = addOns[1] || null
 
   const total = useMemo(() => {
     const license = licenses.find((l) => l._key === licenseKey)
@@ -36,20 +85,16 @@ export function ProductPurchase({ licenses = [], addOns = [], purchaseLink = nul
     const selectedNames = new Set(
       addOns.filter((a) => selectedAddOns.includes(a._key)).map((a) => a.name)
     )
-    // Position of each add-on in the "Add-on plans" list, for tie-breaking.
     const planIndex = new Map(addOns.map((a, i) => [a.name, i]))
 
     let best = null
     let bestCount = -1
     let bestRank = Infinity
     for (const link of links) {
-      // New field is an array of names; fall back to the old single-name field.
       const required = link.addOns?.length ? link.addOns : link.addOn ? [link.addOn] : []
       if (required.length === 0 || !link.url) continue
-      // Every add-on this row needs must be selected.
       if (!required.every((name) => selectedNames.has(name))) continue
       const rank = Math.min(...required.map((name) => planIndex.get(name) ?? Infinity))
-      // More add-ons = more specific = wins; ties break by Add-on plans order.
       if (required.length > bestCount || (required.length === bestCount && rank < bestRank)) {
         best = link.url
         bestCount = required.length
@@ -80,11 +125,18 @@ export function ProductPurchase({ licenses = [], addOns = [], purchaseLink = nul
       maximumFractionDigits: 2,
     })}`
 
+  const brandingSelected = branding ? selectedAddOns.includes(branding._key) : false
+
   return (
     <>
       {licenses.length > 0 ? (
         <div className="liecence_type_block" data-animate="fade-up" data-animate-on="load" data-animate-delay="150" data-animate-dur="500">
-          <div>Licence Type</div>
+          <div className="liecence_head">
+            <div>Licence Type</div>
+            <Link href="/license-agreement" className="view_license_link">
+              View License Details
+            </Link>
+          </div>
           <div className="liecence_wrapper">
             {licenses.map((license) => (
               <label className="label" key={license._key}>
@@ -155,46 +207,114 @@ export function ProductPurchase({ licenses = [], addOns = [], purchaseLink = nul
 
       {addOns.length > 0 ? (
         <div className="add_plan_block" data-animate="fade-up" data-animate-on="load" data-animate-delay="200" data-animate-dur="500">
-          <div>Add ons Plan</div>
-          <div className="add_plan_wrapper">
-            {addOns.map((addOn) => (
-              <label className="label" key={addOn._key}>
-                <div className="plan_select">
-                  <div className="plan_select_details">
-                    <div className="plan_select_block">
-                      <input
-                        type="checkbox"
-                        name="Add ons Plan"
-                        value={addOn.name}
-                        checked={selectedAddOns.includes(addOn._key)}
-                        onChange={() => toggleAddOn(addOn._key)}
-                      />
-                      <div>{addOn.name}</div>
-                    </div>
-                    <div className="plan_select_block">
-                      {addOn.compareAtPrice ? (
-                        <div className="mrp">${addOn.compareAtPrice}</div>
-                      ) : null}
-                      <div>${addOn.price}</div>
-                    </div>
-                  </div>
+          <div className="add_plan_head">
+            <div>Add Ons Plan</div>
+            <button
+              type="button"
+              className="hiw_header_trigger"
+              onClick={() => openDrawer('branding')}
+            >
+              <InfoIcon />
+              How It Works?
+            </button>
+          </div>
 
-                  {(addOn.benefits || []).length > 0 ? (
-                    <div className="plan_benifits_wrapper">
-                      {addOn.benefits.map((benefit) => (
-                        <div className="plan_benifit_details" key={benefit}>
-                          <div className="plan_benifit_dot" />
-                          <div>{benefit}</div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
+          <div className="addon_cards">
+            {branding ? (
+              <div
+                className={`addon_brand${brandingSelected ? ' is-selected' : ''}`}
+                role="button"
+                tabIndex={0}
+                aria-pressed={brandingSelected}
+                onClick={() => toggleAddOn(branding._key)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    toggleAddOn(branding._key)
+                  }
+                }}
+              >
+                <div className="addon_row">
+                  <div className="addon_name">
+                    <span className="addon_check" aria-hidden="true">
+                      <CheckIcon />
+                    </span>
+                    <span>{branding.name}</span>
+                    <button
+                      type="button"
+                      className="addon_info"
+                      aria-label="How it works"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        openDrawer('branding')
+                      }}
+                    >
+                      <InfoIcon />
+                    </button>
+                  </div>
+                  <div className="addon_price">
+                    {branding.compareAtPrice ? (
+                      <span className="addon_mrp">+${branding.compareAtPrice}</span>
+                    ) : null}
+                    <span className="addon_amt">+${branding.price}</span>
+                  </div>
                 </div>
-              </label>
-            ))}
+                {(branding.benefits || []).length > 0 ? (
+                  <div className="addon_feats">
+                    {branding.benefits.map((benefit) => (
+                      <span className="addon_feat" key={benefit}>
+                        <i />
+                        {benefit}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+
+            {frontend ? (
+              <div className="addon_front">
+                <div className="addon_row">
+                  <div className="addon_name">
+                    <span className="addon_code" aria-hidden="true">
+                      <CodeIcon />
+                    </span>
+                    <span>{frontend.name}</span>
+                    <span className="addon_ondemand">ON-DEMAND</span>
+                  </div>
+                  <div className="addon_price addon_price-from">
+                    <span className="addon_from">Starting from</span>
+                    <span className="addon_amt">${frontend.price}</span>
+                  </div>
+                </div>
+                {(frontend.benefits || []).length > 0 ? (
+                  <div className="addon_feats">
+                    {frontend.benefits.map((benefit) => (
+                      <span className="addon_feat" key={benefit}>
+                        <i />
+                        {benefit}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                <hr className="addon_sep" />
+                <div className="addon_front_bottom">
+                  <div className="addon_front_note">Final price depends on pages and scope.</div>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="addon_contact">
+                    Contact Us
+                  </a>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
+
+      <HowItWorksDrawer
+        open={drawerOpen}
+        initialTab={drawerTab}
+        onClose={() => setDrawerOpen(false)}
+      />
     </>
   )
 }

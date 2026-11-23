@@ -1647,3 +1647,989 @@ a.nav_btn:hover .btn_roll_hover {
   margin-top: -34px;
   padding-top: 34px;
 }
+
+/* ============================================================
+   Legal pages (Privacy Policy, License Agreement, Terms)
+   Document-style layout built on the existing design system.
+   ============================================================ */
+
+/* The navbar is position:absolute (57px) and overlays the top, so the top
+   padding must clear it (57px) plus the Figma 64px nav->title gap = 121px.
+   Bottom stays small so the content sits close to the CTA. */
+.section_legal .padding-section-large {
+  padding-top: 121px;
+  padding-bottom: 40px;
+}
+
+.legal_header {
+  text-align: center;
+  max-width: 683px;
+  margin: 0 auto 76px;
+}
+
+/* Exact Figma type scale — Satoshi throughout. */
+.legal_title {
+  font-family: var(--font-family--heading);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.64px;
+  color: #141414;
+  margin-bottom: 20px;
+}
+
+.legal_updated {
+  color: #585858;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.legal_doc {
+  max-width: 683px;
+  margin: 0 auto;
+  /* Figma uses Satoshi for all legal copy, not just the headings. */
+  font-family: var(--font-family--heading);
+}
+
+.legal_block {
+  margin-top: 32px;
+}
+
+.legal_heading {
+  font-family: var(--font-family--heading);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #141414;
+  margin-bottom: 16px;
+}
+
+.legal_subheading {
+  font-family: var(--font-family--heading);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  color: #121212;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.legal_p {
+  color: rgba(18, 18, 18, 0.8);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Figma puts a blank line (24px) between consecutive paragraphs in a body,
+   while a paragraph before a heading/sub-heading stays at 16px. */
+.legal_p + .legal_p {
+  margin-top: 24px;
+}
+
+/* A lead-in paragraph directly before a list sits 8px above it (Figma). */
+.legal_p:has(+ .legal_list) {
+  margin-bottom: 8px;
+}
+
+.legal_list {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.legal_li {
+  color: rgba(18, 18, 18, 0.8);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.legal_li strong {
+  font-weight: 500;
+  color: inherit;
+}
+
+.legal_contact {
+  color: rgba(18, 18, 18, 0.8);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.legal_contact strong {
+  font-weight: 500;
+  color: #121212;
+}
+
+.legal_contact_email {
+  margin-top: 1rem;
+}
+
+.legal_divider {
+  border: 0;
+  border-top: 1px solid #dcdcdc;
+  margin: 16px 0;
+}
+
+.legal_signoff {
+  font-family: var(--font-family--heading);
+  font-weight: 500;
+  font-size: 1.125rem;
+  color: #141414;
+}
+
+.legal_table_wrap {
+  margin: 1.5rem 0;
+  border: 1px solid #dce0e5;
+  overflow-x: auto;
+}
+
+.legal_table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.legal_table th,
+.legal_table td {
+  text-align: left;
+  padding: 11.5px 12px;
+  border-bottom: 1px solid #dce0e5;
+  border-right: 1px solid #dce0e5;
+  vertical-align: top;
+}
+
+.legal_table th:last-child,
+.legal_table td:last-child {
+  border-right: 0;
+}
+
+.legal_table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.legal_table thead th {
+  background: #f7f7f7;
+  color: #14181f;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: var(--font-family--heading);
+}
+
+.legal_table td {
+  color: #6b6b6b;
+}
+
+.legal_table tbody td:first-child {
+  color: #14181f;
+}
+
+/* ============================================================
+   "How it works?" add-on process drawer (product page)
+   ============================================================ */
+
+.add_plan_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hiw_trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: #14181f;
+  line-height: 1;
+}
+
+.hiw_trigger svg {
+  color: #6b6b6b;
+}
+
+.hiw_trigger:hover {
+  text-decoration: underline;
+}
+
+.hiw_overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(10, 12, 16, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hiw_overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hiw_drawer {
+  display: flex;
+  flex-direction: column;
+  width: 665px;
+  max-width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.12);
+}
+
+.hiw_overlay.is-open .hiw_drawer {
+  transform: translateX(0);
+}
+
+.hiw_header {
+  padding: 2rem 2rem 1.25rem;
+}
+
+.hiw_top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Figma: #141414 fill with a 1px #141414 border (border = fill colour),
+   24px tall, sharp corners (no radius), Satoshi Regular 14px white. */
+.hiw_tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 7px;
+  background: #141414;
+  border: 1px solid #141414;
+  color: #fff;
+  font-family: var(--font-family--heading);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 0;
+}
+
+.hiw_close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: #141414;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.hiw_intro {
+  margin: 2rem 0 0;
+  color: #000;
+  font-family: var(--font-family--heading);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.hiw_heading {
+  font-family: var(--font-family--heading);
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.2;
+  letter-spacing: -0.96px;
+  color: #141414;
+  margin: 9px 0 1.5rem;
+}
+
+/* Figma: white bg, 1px rgba(204,204,204,.75) border, 4px padding, no gap
+   between tabs, sharp corners (radius 0). */
+.hiw_tabs {
+  display: flex;
+  align-items: flex-start;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid rgba(204, 204, 204, 0.75);
+  border-radius: 0;
+}
+
+.hiw_tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 8px 24px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #141414;
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Figma active tab: #141414 fill, white text, lh 26px, 4px label-badge gap. */
+.hiw_tab.is-active {
+  background: #141414;
+  color: #fff;
+  gap: 4px;
+  line-height: 26px;
+}
+
+/* ON-DEMAND badge: dark on the inactive (white) tab, inverted on the active.
+   Figma: #141414 fill with a 0.4px dashed #000 border, sharp corners. */
+.hiw_ondemand {
+  background: #141414;
+  color: #fff;
+  font-family: var(--font-family--heading);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.12px;
+  text-transform: uppercase;
+  padding: 4px 6px;
+  line-height: 1;
+  border: 0.4px dashed #000;
+  border-radius: 0;
+}
+
+/* Figma active badge: white fill, #141414 text, no dashed border. */
+.hiw_tab.is-active .hiw_ondemand {
+  background: #fff;
+  color: #141414;
+  border-color: transparent;
+}
+
+.hiw_body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.5rem 2rem 0;
+}
+
+/* Step rows. Figma (Update Branding, 716:1408): 20px below each row, a 1px
+   #e6e6e6 divider, 21px above the next row, and a divider under the last
+   row. Figma (Frontend, 716:1731): 16px / 17px, and the help box follows
+   with no divider. */
+.hiw_row {
+  padding-bottom: 20px;
+}
+
+.hiw_row + .hiw_row {
+  border-top: 1px solid #e6e6e6;
+  padding-top: 21px;
+}
+
+.hiw_body.is-branding .hiw_row:last-of-type {
+  padding-bottom: 21px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.hiw_body.is-frontend .hiw_row {
+  padding-bottom: 16px;
+}
+
+.hiw_body.is-frontend .hiw_row + .hiw_row {
+  padding-top: 17px;
+}
+
+.hiw_body.is-frontend .hiw_row.is-help {
+  border-top: 0;
+  padding: 0;
+}
+
+.hiw_step {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Help box: #f2f2f2, 16px padding, sharp corners, content centred. */
+.hiw_step.is-help {
+  background: #f2f2f2;
+  border-radius: 0;
+  padding: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hiw_step.is-help .hiw_step_body {
+  flex: 0 1 380px;
+}
+
+.hiw_step.is-help .hiw_step_desc {
+  line-height: 26px;
+}
+
+/* Number: 28px circle, rgba(214,214,214,.31), Satoshi Bold 12px black.
+   Figma centres it on the title + description (a 58px block), so it
+   sits 15px down from the top of the row. */
+.hiw_num {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin-top: 15px;
+  border-radius: 50%;
+  background: rgba(214, 214, 214, 0.31);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family--heading);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.24px;
+  line-height: 1;
+  color: #000;
+}
+
+.hiw_step.is-help .hiw_num {
+  margin-top: 0;
+}
+
+.hiw_num.is-dark {
+  background: #000;
+  color: #fff;
+}
+
+.hiw_step_body {
+  flex: 1;
+  min-width: 0;
+}
+
+.hiw_step_head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hiw_step_title {
+  font-family: var(--font-family--heading);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.18px;
+  line-height: 26px;
+  color: #000;
+  margin: 0;
+}
+
+/* "Within 48 hrs" / timeline badge: "[" and "]" rectangles stroked #000 at
+   40% opacity (5 x 20px), 4px gap, Satoshi Medium 14px #141414. */
+.hiw_badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-family--heading);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.14px;
+  line-height: 1;
+  color: #141414;
+  white-space: nowrap;
+}
+
+.hiw_badge::before,
+.hiw_badge::after {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.hiw_badge::before {
+  border-right: 0;
+}
+
+.hiw_badge::after {
+  border-left: 0;
+}
+
+.hiw_step_desc {
+  margin: 6px 0 0;
+  color: rgba(18, 18, 18, 0.57);
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+/* Bold runs stay in the description grey, per Figma. */
+.hiw_step_desc strong {
+  color: inherit;
+  font-weight: 700;
+}
+
+.hiw_inline-link {
+  color: #121212;
+  text-decoration: underline;
+}
+
+.hiw_bullets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+}
+
+/* Bullet: a 4px #141414 square inside a 16 x 18 icon box (6px inset each
+   side), then a 6px spacer, then Satoshi Regular 16px #212121. */
+.hiw_bullet {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #212121;
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.16px;
+  line-height: 24px;
+}
+
+.hiw_bullet i {
+  width: 4px;
+  height: 4px;
+  margin: 0 6px;
+  background: #141414;
+  flex: none;
+  transform: translateY(1.5px);
+}
+
+/* Schedule call: #000, 40px tall, 12px 28px padding, Satoshi Medium 16px
+   white, sharp corners. */
+.hiw_schedule {
+  flex: none;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  min-width: 155px;
+  padding: 12px 28px;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.16px;
+  line-height: 1.4;
+  border-radius: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Note: Satoshi Italic 16px / 24px, rgba(18,18,18,.57), centred, max 516px.
+   24px below the list on Update Branding, 20px on Frontend. */
+.hiw_note {
+  max-width: 516px;
+  margin: 24px auto 0;
+  padding: 0 0 2rem;
+  text-align: center;
+  font-family: var(--font-family--heading);
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(18, 18, 18, 0.57);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.hiw_body.is-frontend .hiw_note {
+  margin-top: 20px;
+}
+
+/* Figma 716:1466: 1px rgba(0,0,0,.13) top border, 14px 32px padding. */
+.hiw_footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.13);
+  padding: 14px 32px;
+}
+
+/* Satoshi Regular 16px / 26px, rgba(18,18,18,.57), 348px wide. */
+.hiw_footer_text {
+  margin: 0;
+  max-width: 348px;
+  color: rgba(18, 18, 18, 0.57);
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+/* "Contact our support team." is #121212 and not underlined. */
+.hiw_footer_contact {
+  color: #121212;
+  text-decoration: none;
+}
+
+/* Satoshi Medium 16px / 26px #121212, underlined. */
+.hiw_footer_link {
+  color: #121212;
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 26px;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .hiw_drawer {
+    width: 100%;
+  }
+
+  .hiw_header {
+    padding: 1.25rem 1.25rem 1rem;
+  }
+
+  .hiw_body {
+    padding: 0.5rem 1.25rem 0;
+  }
+
+  .hiw_footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .hiw_heading {
+    font-size: 2.25rem;
+  }
+
+  .hiw_step.is-help {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hiw_schedule {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   Add-ons plan cards + licence "View License Details"
+   ============================================================ */
+
+.liecence_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.view_license_link {
+  font-size: 0.875rem;
+  color: #14181f;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+/* "Add Ons Plan" label (Figma 716:1945). */
+.add_plan_head > div:first-child {
+  font-family: var(--font-family--heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: #0c0c0c;
+  text-transform: capitalize;
+}
+
+.hiw_header_trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 0;
+  background: rgba(120, 120, 120, 0.13);
+  color: #212121;
+  font-family: var(--font-family--heading);
+  font-size: 14px;
+  text-transform: capitalize;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.hiw_header_trigger svg {
+  color: #212121;
+}
+
+.addon_cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Two independent boxes; selected / hover border = #141414, default #14141433. */
+.addon_brand,
+.addon_front {
+  padding: 16px 12px;
+  border: 1px solid #14141433;
+  border-radius: 0;
+  transition: border-color 0.2s ease;
+}
+
+.addon_brand {
+  cursor: pointer;
+}
+
+.addon_brand.is-selected,
+.addon_brand:hover,
+.addon_front:hover {
+  border-color: #141414;
+}
+
+.addon_brand:focus-visible {
+  border-color: #141414;
+  outline: 2px solid #141414;
+  outline-offset: 2px;
+}
+
+.addon_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.addon_name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family--heading);
+  font-size: 16px;
+  font-weight: 500;
+  color: #141414;
+  line-height: 1.2;
+}
+
+.addon_check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #c9ccd1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  flex: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.addon_brand.is-selected .addon_check {
+  background: #141414;
+  border-color: #141414;
+  color: #fff;
+}
+
+.addon_code {
+  color: #141414;
+  display: inline-flex;
+}
+
+.addon_info {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  /* Figma "Warning / Info" icon is stroked solid black. */
+  color: #000;
+  cursor: pointer;
+}
+
+/* ON-DEMAND: a "[" and "]" bracket on each side (Figma uses two rectangles,
+   stroked #000 at 40% opacity, ~5.4 x 18px). */
+.addon_ondemand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family--heading);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.26px;
+  text-transform: uppercase;
+  color: #141414;
+  line-height: 1;
+}
+
+.addon_ondemand::before,
+.addon_ondemand::after {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.addon_ondemand::before {
+  border-right: 0;
+}
+
+.addon_ondemand::after {
+  border-left: 0;
+}
+
+.addon_price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.addon_mrp {
+  color: #0000004a;
+  text-decoration: line-through;
+  font-family: var(--font-family--heading);
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.addon_amt {
+  font-family: var(--font-family--heading);
+  font-weight: 500;
+  font-size: 16px;
+  color: #000000;
+}
+
+.addon_from {
+  color: #212121;
+  font-size: 14px;
+  letter-spacing: -0.14px;
+}
+
+.addon_feats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin-top: 10px;
+}
+
+.addon_feat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #212121;
+  font-size: 14px;
+  letter-spacing: -0.14px;
+  line-height: 1.5;
+}
+
+.addon_feat i {
+  width: 4px;
+  height: 4px;
+  background: #141414;
+  flex: none;
+}
+
+.addon_sep {
+  border: 0;
+  border-top: 1px solid #e6e6e6;
+  margin: 16px 0 12px;
+}
+
+.addon_front_bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.addon_front_note {
+  color: #212121;
+  font-size: 14px;
+  letter-spacing: -0.14px;
+  line-height: 22px;
+}
+
+.addon_contact {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 95px;
+  height: 32px;
+  padding: 0 10px;
+  background: #141414;
+  color: #fff;
+  font-family: var(--font-family--heading);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.28px;
+  border-radius: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* The three Update Branding features stay on one line on desktop. */
+.addon_brand .addon_feats {
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.addon_brand .addon_feat {
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .addon_row {
+    align-items: flex-start;
+  }
+
+  .addon_front_bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .addon_contact {
+    text-align: center;
+  }
+
+  /* Allow the branding features to wrap on small screens to avoid overflow. */
+  .addon_brand .addon_feats {
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+  }
+
+  .addon_brand .addon_feat {
+    white-space: normal;
+  }
+}
+
+.legal_doc a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+@media (max-width: 767px) {
+  .legal_header {
+    margin-bottom: 2rem;
+  }
+
+  .legal_block {
+    margin-top: 2rem;
+  }
+}

@@ -73,7 +73,9 @@ export const fallbackSettings = {
         { label: 'FAQs', href: '#' },
         { label: 'Pricing', href: '#' },
         { label: 'Affiliates', href: '#' },
-        { label: 'License and Policies', href: '#' },
+        { label: 'Privacy Policy', href: '/privacy-policy' },
+        { label: 'License Agreement', href: '/license-agreement' },
+        { label: 'Terms & Conditions', href: '/terms-and-conditions' },
       ],
     },
     {
@@ -150,8 +152,8 @@ export const fallbackTrustLogos = [
 ]
 
 const defaultLicenses = [
-  { _key: 'single', name: 'Single User License', seats: '(1 User)', price: 299 },
-  { _key: 'multi', name: 'Multi User License', seats: '(10 User)', price: 299 },
+  { _key: 'single', name: 'Single User License', seats: '(1 User)', price: 396 },
+  { _key: 'multi', name: 'Multi User License', seats: '(10 Users)', price: 1850 },
 ]
 
 const defaultAddOns = [
@@ -160,7 +162,7 @@ const defaultAddOns = [
     name: 'Update Branding',
     compareAtPrice: 599,
     price: 250,
-    benefits: ['Colour Updates', 'Fonts & Typography', 'Design Component '],
+    benefits: ['Colour Updates', 'Fonts & Typography', 'Colour Design Component'],
   },
   {
     _key: 'frontend',

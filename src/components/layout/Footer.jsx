@@ -3,6 +3,25 @@ import Link from 'next/link'
 import { NewsletterForm } from './NewsletterForm'
 import { imageUrl } from '@/sanity/image'
 
+// Known legal labels -> their routes. Lets footer links resolve to the real
+// legal pages even when the CMS still has a placeholder href ("#"). A real href
+// set in Sanity always wins over this map.
+const LEGAL_ROUTES = {
+  'privacy policy': '/privacy-policy',
+  'license agreement': '/license-agreement',
+  'licence agreement': '/license-agreement',
+  'license and policies': '/license-agreement',
+  'licenses and policies': '/license-agreement',
+  'terms & conditions': '/terms-and-conditions',
+  'terms and conditions': '/terms-and-conditions',
+}
+
+function resolveFooterHref(link) {
+  if (link.href && link.href !== '#') return link.href
+  const match = LEGAL_ROUTES[(link.label || '').trim().toLowerCase()]
+  return match || link.href || '#'
+}
+
 export function Footer({ settings }) {
   const logo = imageUrl(settings.footerLogo)
 
@@ -30,7 +49,7 @@ export function Footer({ settings }) {
                         {(column.links || []).map((link) => (
                           <Link
                             key={`${link.label}-${link.href}`}
-                            href={link.href || '#'}
+                            href={resolveFooterHref(link)}
                             className="footer_menu_link"
                           >
                             {link.label}

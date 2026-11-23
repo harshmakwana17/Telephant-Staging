@@ -8,6 +8,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import 'lenis/dist/lenis.css'
 
+import { registerLenis } from '@/lib/scrollLock'
+
 gsap.registerPlugin(ScrollTrigger)
 
 /**
@@ -29,6 +31,8 @@ export function SmoothScroll() {
 
     const lenis = new Lenis({ autoRaf: false })
     lenisRef.current = lenis
+    // Lets overlays pause smooth scrolling - see lib/scrollLock.js.
+    registerLenis(lenis)
 
     const stopSyncing = lenis.on('scroll', ScrollTrigger.update)
     const tick = (time) => lenis.raf(time * 1000) // GSAP time is in seconds
@@ -43,6 +47,7 @@ export function SmoothScroll() {
       gsap.ticker.lagSmoothing(500, 33) // GSAP's defaults
       lenis.destroy()
       lenisRef.current = null
+      registerLenis(null)
     }
   }, [])
 
