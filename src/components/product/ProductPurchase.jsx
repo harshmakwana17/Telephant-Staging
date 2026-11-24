@@ -133,7 +133,12 @@ export function ProductPurchase({ licenses = [], addOns = [], purchaseLink = nul
         <div className="liecence_type_block" data-animate="fade-up" data-animate-on="load" data-animate-delay="150" data-animate-dur="500">
           <div className="liecence_head">
             <div>Licence Type</div>
-            <Link href="/license-agreement" className="view_license_link">
+            <Link
+              href="/license-agreement"
+              className="view_license_link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               View License Details
             </Link>
           </div>

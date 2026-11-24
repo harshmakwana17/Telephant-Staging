@@ -231,7 +231,7 @@ export function HowItWorksDrawer({ open = false, onClose = () => {}, initialTab 
               Contact our support team.
             </a>
           </p>
-          <a href={TERMS_HREF} className="hiw_footer_link">
+          <a href={TERMS_HREF} className="hiw_footer_link" target="_blank" rel="noopener noreferrer">
             Terms &amp; Condition
           </a>
         </div>

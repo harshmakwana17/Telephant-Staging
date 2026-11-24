@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
+import { newTabProps } from '@/lib/legalLinks'
 import { imageUrl } from '@/sanity/image'
 
 /**
@@ -73,6 +74,7 @@ export function Navbar({ settings }) {
                     key={`${link.label}-${link.href}`}
                     href={link.href || '#'}
                     className="nav_menu_link"
+                    {...newTabProps(link.href)}
                     // Closes the drawer. For the Templates link, also reset the
                     // listing filter back to "All" - clicking it while already
                     // on /products is a same-route nav, so the filter component

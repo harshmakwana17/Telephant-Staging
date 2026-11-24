@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { NewsletterForm } from './NewsletterForm'
+import { newTabProps } from '@/lib/legalLinks'
 import { imageUrl } from '@/sanity/image'
 
 // Known legal labels -> their routes. Lets footer links resolve to the real
@@ -46,15 +47,19 @@ export function Footer({ settings }) {
                     <div className="footer_menu_wrap" key={column.title}>
                       <div>{column.title}</div>
                       <div className="footer_menu_details">
-                        {(column.links || []).map((link) => (
-                          <Link
-                            key={`${link.label}-${link.href}`}
-                            href={resolveFooterHref(link)}
-                            className="footer_menu_link"
-                          >
-                            {link.label}
-                          </Link>
-                        ))}
+                        {(column.links || []).map((link) => {
+                          const href = resolveFooterHref(link)
+                          return (
+                            <Link
+                              key={`${link.label}-${link.href}`}
+                              href={href}
+                              className="footer_menu_link"
+                              {...newTabProps(href)}
+                            >
+                              {link.label}
+                            </Link>
+                          )
+                        })}
                       </div>
                     </div>
                   ))}
