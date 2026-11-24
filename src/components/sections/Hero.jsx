@@ -2,11 +2,16 @@
 
 import Link from 'next/link'
 
+import { MotionGridBackground } from '@/components/motion/MotionGridBackground'
 import { Button } from '@/components/ui/Button'
 import { RollingText } from '@/components/ui/RollingText'
 import { imageUrl } from '@/sanity/image'
 
-export function Hero({ settings }) {
+// `motionGridImages` turns on the animated card field behind the hero copy
+// (used by the /hero-preview page to trial the effect). The homepage passes
+// nothing, so it renders exactly as before.
+export function Hero({ settings, motionGridImages = null }) {
+  const hasMotionGrid = Boolean(motionGridImages?.length)
   const socialProofImage = imageUrl(settings.heroSocialProofImage)
   const accentWord = settings.heroHeadingAccent || 'Agencies'
 
@@ -20,7 +25,8 @@ export function Hero({ settings }) {
   )
 
   return (
-    <section className="section_hero">
+    <section className={`section_hero${hasMotionGrid ? ' has-bg-layer' : ''}`}>
+      {hasMotionGrid ? <MotionGridBackground images={motionGridImages} /> : null}
       <div className="padding-global">
         <div className="container-large">
           <div className="hero_main_wrap">

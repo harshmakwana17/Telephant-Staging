@@ -3,39 +3,48 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { TemplateCard } from '@/components/ui/TemplateCard'
-
-// "Recent" has no flag on the product - it is the newest by publish date.
-// Swap this for an isRecent flag or a date window later if the client wants.
-const RECENT_COUNT = 3
+import { FILTER_CATEGORIES } from '@/lib/filterCategories'
 
 /**
  * Category filter for the templates listing, styled as the page's hero: big
- * tabs (All / Popular / Editor Choice / Recent) with live counts. Clicking one
- * filters the grid below.
+ * tabs (All / Weight Loss / Lab & Diagnostic / D2C E-commerce) with live
+ * counts. Clicking one filters the grid below.
  *
- * Popular and Editor Choice come from per-product flags; Recent is the newest
- * `RECENT_COUNT` by publishedAt. Counts are derived, so they always match the
- * data. Client component because the filtering is interactive.
+ * Each product's "Filter categories" checkboxes in Studio decide which tabs it
+ * appears under (a product can be in several); the tab list itself lives in
+ * lib/filterCategories.js. Counts are derived, so they always match the data.
+ * Client component because the filtering is interactive.
  *
  * On mobile the hero tabs stack vertically; once they scroll out of view a
  * compact, horizontally-scrollable bar sticks to the top with the active tab
  * centred. Both share the same active state.
  */
-export function TemplateFilter({ products = [] }) {
-  const categories = useMemo(() => {
-    const byNewest = [...products].sort(
-      (a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0)
-    )
-    return [
+export function TemplateFilter({ products = [], initialCategory }) {
+  const categories = useMemo(
+    () => [
       { key: 'all', label: 'All', items: products },
-      { key: 'popular', label: 'Popular', items: products.filter((p) => p.isMostPopular) },
-      { key: 'editor', label: 'Editor Choice', items: products.filter((p) => p.isEditorChoice) },
-      { key: 'recent', label: 'Recent', items: byNewest.slice(0, RECENT_COUNT) },
-    ]
-  }, [products])
+      ...FILTER_CATEGORIES.map(({ value, title }) => ({
+        key: value,
+        label: title,
+        items: products.filter((p) => p.filterCategories?.includes(value)),
+      })),
+    ],
+    [products]
+  )
 
-  const [active, setActive] = useState('all')
+  // Opens on `?category=` when it names a real tab (footer SHOP links), else All.
+  const startKey = categories.some((c) => c.key === initialCategory) ? initialCategory : 'all'
+  const [active, setActive] = useState(startKey)
   const current = categories.find((c) => c.key === active) || categories[0]
+
+  // Follow the URL when a category link is clicked while already on this page
+  // (same-route navigation keeps this component mounted). Adjusting state
+  // during render is React's recommended pattern for this, not an effect.
+  const [lastStartKey, setLastStartKey] = useState(startKey)
+  if (lastStartKey !== startKey) {
+    setLastStartKey(startKey)
+    setActive(startKey)
+  }
 
   // Sticky mobile bar: shown once the hero tabs scroll above the viewport.
   const heroRef = useRef(null)

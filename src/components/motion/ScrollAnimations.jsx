@@ -93,6 +93,9 @@ const PRESETS = {
 
   stagger: (el, delay, contextSafe, load, dur) => {
     const items = gsap.utils.toArray(el.children)
+    // An empty group (e.g. a filter tab with no templates) has nothing to
+    // reveal, and ScrollTrigger.batch throws on an empty list.
+    if (!items.length) return
     gsap.set(items, { autoAlpha: 0, y: RISE })
     const reveal = (targets) =>
       gsap.to(targets, { autoAlpha: 1, y: 0, duration: dur ?? 0.9, ease: EASE, stagger: 0.1, delay, clearProps: CLEAR })

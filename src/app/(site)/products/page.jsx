@@ -8,15 +8,22 @@ export const metadata = {
     'Browse every Telephant telehealth and wellness website template.',
 }
 
-export default async function ProductsPage() {
-  const [products, settings] = await Promise.all([getAllProducts(), getSiteSettings()])
+// `?category=weight-loss` (etc.) opens the Templates page on that tab - used by
+// the footer SHOP links. Unknown values fall back to "All".
+export default async function ProductsPage({ searchParams }) {
+  const [products, settings, params] = await Promise.all([
+    getAllProducts(),
+    getSiteSettings(),
+    searchParams,
+  ])
+  const category = typeof params?.category === 'string' ? params.category : undefined
 
   return (
     <>
       <section className="product_list-hero">
         <div className="padding-global">
           <div className="container-large">
-            <TemplateFilter products={products} />
+            <TemplateFilter products={products} initialCategory={category} />
           </div>
         </div>
       </section>

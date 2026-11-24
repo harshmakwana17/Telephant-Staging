@@ -17,6 +17,7 @@ const productCardFields = `
   badge,
   isMostPopular,
   isEditorChoice,
+  filterCategories,
   publishedAt,
   order
 `

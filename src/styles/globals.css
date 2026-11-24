@@ -373,6 +373,25 @@ input[name="Add ons Plan"]:checked::after {
    Mobile navigation drawer (both pages)
    ============================================================ */
 
+/* Desktop nav (Figma 718:2705): links centred on the page regardless of the
+   logo/button widths, and a 44px-tall button. Mobile drawer unaffected. */
+@media (min-width: 992px) {
+  .nav_menu {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .nav_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    min-width: 127px;
+  }
+}
+
 /* Two-line hamburger -> X (no centre line), driven by .nav_container.menu-open. */
 .nav_burger {
   position: relative;
@@ -1414,11 +1433,13 @@ a.nav_btn:hover .btn_roll_hover {
   border: 0;
 }
 
+/* Figma 718:2404: tabs 32px apart; labels Satoshi Regular 54px / 1.12,
+   -1.08px; counts 18.06px, -0.56px, 6px after the label. */
 .template_filter_tabs {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.5rem 2.625rem;
+  gap: 0.5rem 32px;
 }
 
 
@@ -1430,10 +1451,10 @@ a.nav_btn:hover .btn_roll_hover {
   margin: 0;
   cursor: pointer;
   font-family: var(--font-family--heading);
-  font-size: var(--_typography---h2--h2-font-size);
+  font-size: 54px;
   line-height: 1.12;
   font-weight: 400;
-  letter-spacing: var(--_typography---h2--h2-letter-spacing);
+  letter-spacing: -0.02em;
   color: #00000033;
   transition: color 0.35s ease;
 }
@@ -1469,13 +1490,19 @@ a.nav_btn:hover .btn_roll_hover {
 }
 
 /* Superscript count, kept muted whether or not the tab is active. */
+/* Count is a third of the label size (18.06 / 54), so it scales with the
+   smaller tablet/mobile tab sizes too. */
 .template_filter_count {
-  margin-left: 0.2em;
-  font-size: 0.45em;
+  margin-left: 6px;
+  /* 11px floor keeps it legible on the small mobile tabs. */
+  font-size: max(0.3344em, 11px);
   color: currentColor;
   transition: inherit;
-  top: -1em;
-  letter-spacing: -0.02em;
+  /* Top-aligned with the label, as in Figma (items-start). */
+  position: static;
+  vertical-align: top;
+  line-height: 1.12;
+  letter-spacing: -0.031em;
 }
 
 .template_filter_empty {
@@ -1653,11 +1680,11 @@ a.nav_btn:hover .btn_roll_hover {
    Document-style layout built on the existing design system.
    ============================================================ */
 
-/* The navbar is position:absolute (57px) and overlays the top, so the top
-   padding must clear it (57px) plus the Figma 64px nav->title gap = 121px.
-   Bottom stays small so the content sits close to the CTA. */
+/* The navbar is position:absolute (64px with the 44px nav button) and overlays
+   the top, so the top padding must clear it plus the Figma 64px nav->title
+   gap = 128px. Bottom stays small so the content sits close to the CTA. */
 .section_legal .padding-section-large {
-  padding-top: 121px;
+  padding-top: 128px;
   padding-bottom: 40px;
 }
 
@@ -2318,9 +2345,34 @@ a.nav_btn:hover .btn_roll_hover {
     font-size: 2.25rem;
   }
 
+  /* Tabs: let labels wrap instead of overflowing the screen. Both tabs
+     stretch to the taller one so the switcher stays even. */
+  .hiw_tabs {
+    align-items: stretch;
+  }
+
+  .hiw_tab,
+  .hiw_tab.is-active {
+    height: auto;
+    min-height: 40px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+  }
+
   .hiw_step.is-help {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* On desktop the help text is capped with `flex: 0 1 380px`. In this
+     column layout that basis would become a 380px height, so reset it. */
+  .hiw_step.is-help .hiw_step_body {
+    flex: none;
+    width: 100%;
   }
 
   .hiw_schedule {
@@ -2631,5 +2683,171 @@ a.nav_btn:hover .btn_roll_hover {
 
   .legal_block {
     margin-top: 2rem;
+  }
+}
+
+/* ============================================================
+   Homepage "Shop By Category" (Figma 718:2807)
+   ============================================================ */
+
+/* 20px above, 120px below; 40px from the header to the grid. */
+.section_shop_category {
+  padding-top: 20px;
+  padding-bottom: 120px;
+}
+
+/* 40px from the heading row to the cards in every "eyebrow + heading + card
+   grid" section (Most Popular, Recent Drops, Editor Choice, Shop By
+   Category). Scoped so the Templates page's filter hero keeps its own gap. */
+.section_most_popular .template_wrapper,
+.section_recent_launch .template_wrapper,
+.section_shop_category .template_wrapper {
+  gap: 40px;
+}
+
+/* Eyebrow: Satoshi Regular 16px / 1.4, #7c7c7c, -0.32px; 24px above the
+   heading. */
+.section_shop_category .template_heading {
+  gap: 24px;
+}
+
+.section_shop_category .template_heading > div:first-child {
+  color: #7c7c7c;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  line-height: 1.4;
+}
+
+.shop_cat_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Tabs: Satoshi Regular 28px / 1.12, -0.56px, 32px apart. Inactive
+   rgba(0,0,0,.2) with a #ccc count; active black, label underlined. */
+.shop_cat_tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.shop_cat_tab {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-family--heading);
+  font-weight: 400;
+  line-height: 1.12;
+  color: rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.shop_cat_label {
+  font-size: 28px;
+  letter-spacing: -0.56px;
+}
+
+.shop_cat_count {
+  position: static;
+  vertical-align: top;
+  font-size: 15.48px;
+  letter-spacing: -0.48px;
+  line-height: 1.12;
+  color: #ccc;
+  transition: color 0.2s ease;
+}
+
+.shop_cat_tab.is-active,
+.shop_cat_tab.is-active .shop_cat_count {
+  color: #000;
+}
+
+.shop_cat_tab.is-active .shop_cat_label {
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+
+@media (max-width: 767px) {
+  .section_shop_category {
+    padding-bottom: 80px;
+  }
+
+  .shop_cat_tabs {
+    gap: 20px;
+  }
+
+  .shop_cat_label {
+    font-size: 22px;
+  }
+}
+
+/* Footer text under the logo: Figma 718:3082 is a 232px-wide box with manual
+   line breaks ("...latest releases," / "exclusive discounts, and new" /
+   "features."). pre-line keeps line breaks typed into the Studio field. */
+.footer_fp_deatils {
+  width: 232px;
+  max-width: 100%;
+  white-space: pre-line;
+}
+
+/* ============================================================
+   Hero "motion grid" background (trial - /hero-preview only)
+   A rotating 3D sphere of template cards; positions are set per
+   frame by MotionGridBackground.jsx.
+   ============================================================ */
+
+.section_hero.has-bg-layer {
+  overflow: hidden;
+}
+
+/* Keep the hero copy above the card field. */
+.section_hero.has-bg-layer > .padding-global {
+  position: relative;
+  z-index: 1;
+}
+
+.motion_grid_bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* Fades in once the first frame is laid out (no jump on load). */
+.motion_grid_bg.is-ready {
+  opacity: 1;
+}
+
+.motion_grid_card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform, opacity;
+}
+
+.motion_grid_card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Phones: the copy fills most of the hero, so keep the field fainter. */
+@media (max-width: 767px) {
+  .motion_grid_bg.is-ready {
+    opacity: 0.45;
   }
 }

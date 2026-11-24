@@ -8,6 +8,8 @@ import { lockScroll, unlockScroll } from '@/lib/scrollLock'
 // Existing destinations are reused for the contact/schedule/terms actions.
 // TODO(client): swap SCHEDULE_HREF for a real scheduling link if one exists.
 const CONTACT_HREF = 'mailto:sales@telephant.store'
+// "Contact Our Team" in the Frontend tab's "Need Help Getting Started?" step.
+const HELP_CONTACT_HREF = 'mailto:hello@telephant.store'
 const SCHEDULE_HREF = 'mailto:sales@telephant.store'
 const TERMS_HREF = '/terms-and-conditions'
 
@@ -70,7 +72,7 @@ const CONTENT = {
         desc: (
           <>
             Need help choosing a template or understanding development?{' '}
-            <a href={CONTACT_HREF} className="hiw_inline-link">
+            <a href={HELP_CONTACT_HREF} className="hiw_inline-link">
               Contact Our Team
             </a>{' '}
             or

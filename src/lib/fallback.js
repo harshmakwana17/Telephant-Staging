@@ -10,12 +10,11 @@
 export const fallbackSettings = {
   navLogo: '/images/Frame-2147228265.svg',
   navLinks: [
-    { label: 'Templates', href: '/products' },
-    { label: 'About', href: '#' },
-    { label: 'Customise', href: '#' },
-    { label: 'Support', href: '#' },
+    { label: 'Browse Templates', href: '/products' },
+    { label: 'License', href: '/license-agreement' },
+    { label: 'Creator', href: '#' },
   ],
-  navButton: { label: 'Launch your Brand', href: '#' },
+  navButton: { label: 'Contact Now', href: '#' },
   // Shown only in the mobile nav drawer; kept separate from footerEmail so the
   // footer address is unaffected.
   navContactEmail: 'help@telephant.store',
@@ -55,63 +54,61 @@ export const fallbackSettings = {
     { label: 'Why Telephant ', href: '#', primary: true },
   ],
 
-  footerLogo: '/images/Frame-1410085881.webp',
+  footerLogo: '/images/telephant-wordmark.svg',
   footerBlurb:
-    'Join our community for pioneering access to new releases and discounts.',
+    'Stay connected for the latest releases,\nexclusive discounts, and new\nfeatures.',
   footerColumns: [
     {
       title: 'SHOP',
       links: [
-        { label: 'Single Templates', href: '/products' },
-        { label: 'Collections', href: '#' },
-        { label: 'Home', href: '/' },
+        { label: 'Weight Loss', href: '/products?category=weight-loss' },
+        { label: 'Lab & Diagnostic', href: '/products?category=lab-diagnostic' },
+        { label: 'D2C eCommerce', href: '/products?category=d2c-ecommerce' },
       ],
     },
     {
       title: 'INFO',
       links: [
-        { label: 'FAQs', href: '#' },
-        { label: 'Pricing', href: '#' },
-        { label: 'Affiliates', href: '#' },
-        { label: 'Privacy Policy', href: '/privacy-policy' },
-        { label: 'License Agreement', href: '/license-agreement' },
         { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+        { label: 'Privacy Policy', href: '/privacy-policy' },
+        { label: 'Affiliates', href: '#' },
+        { label: 'User License', href: '/license-agreement' },
       ],
     },
     {
       title: 'SOCIAL',
       links: [
+        { label: 'X', href: '#' },
+        { label: 'Dribbble', href: '#' },
         { label: 'Instagram', href: '#' },
-        { label: 'LinkedIn', href: '#' },
-        { label: 'Twitter', href: '#' },
       ],
     },
   ],
-  footerCompany: 'DStudio.Agency',
-  footerEmail: 'hello@dstudio.agency',
-  footerCopyright: 'DStudio Agency ® Copyright',
+  footerCompany: 'Telephant.store',
+  footerEmail: 'sales@telephant.store',
+  footerCopyright: 'Telephant Store ® Copyright',
 }
 
 export const fallbackTestimonials = [
   {
     _id: 't1',
-    quote: "We've partnered with Dstudio on multiple telehealth projects.",
+    quote: 'We loved the premium look and conversion-focused approach.',
     name: 'Amir Sigari',
-    role: 'Marketing - Ellie MD ',
+    role: 'Marketing - Ellie MD',
     verified: true,
     avatar: '/images/amir-sigari.png',
   },
   {
     _id: 't2',
-    quote: 'Dstudio delivered a clean, patient-first telehealth website that perfectly.',
+    quote: 'The website offers a great user experience and better UX',
     name: 'Zak Casey',
-    role: 'Tryeden - Marketing ',
+    role: 'Tryeden - Marketing',
     verified: true,
     avatar: '/images/zak-casey.png',
   },
   {
     _id: 't3',
-    quote: 'Dstudio delivered a clean, patient-first telehealth website that perfectly.',
+    quote: 'The website offers a great user experience and better UX',
     name: 'Alexandra Lieb',
     role: 'Founder - Jelly Health',
     verified: true,
@@ -119,7 +116,7 @@ export const fallbackTestimonials = [
   },
   {
     _id: 't4',
-    quote: 'Working with Dstudio was seamless. They created a high-converting telehealth',
+    quote: 'Their CRO strategy has made our website more conversion-focused.',
     name: 'Joey Stiver',
     role: 'CEO & Founder - Amble',
     verified: true,
@@ -127,7 +124,7 @@ export const fallbackTestimonials = [
   },
   {
     _id: 't5',
-    quote: 'Working with Dstudio was seamless. They simplified a complex AI product',
+    quote: 'The design feels premium, polished, and easy to navigate.',
     name: 'Konrad Sudyka',
     role: 'CEO & Founder - Elevated Health',
     verified: true,
@@ -135,11 +132,11 @@ export const fallbackTestimonials = [
   },
   {
     _id: 't6',
-    quote: 'Dstudio transformed our product vision into a modern, intuitive experience.',
-    name: 'Zak Casey',
-    role: 'Marketing - Ellie MD ',
+    quote: 'Our telehealth website now delivers a much better experience.',
+    name: 'Sanders Monsees',
+    role: 'Founder - Hu Health',
     verified: true,
-    avatar: '/images/zak-casey-2.png',
+    avatar: '/images/sanders-monsees.png',
   },
 ]
 

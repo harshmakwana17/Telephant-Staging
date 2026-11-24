@@ -1,3 +1,5 @@
+import { FILTER_CATEGORIES } from '../../lib/filterCategories'
+
 export const product = {
   name: 'product',
   title: 'Product / Template',
@@ -80,7 +82,7 @@ export const product = {
       type: 'image',
       group: 'media',
       options: { hotspot: true },
-      description: 'Thumbnail used in the "Most Popular" and "Recent Launched" grids.',
+      description: 'Thumbnail used in the "Most Popular" and "Recent Drops" grids.',
       fields: [{ name: 'alt', title: 'Alt text', type: 'string' }],
       validation: (Rule) => Rule.required(),
     },
@@ -371,6 +373,19 @@ export const product = {
     },
 
     {
+      name: 'filterCategories',
+      title: 'Filter categories',
+      type: 'array',
+      group: 'content',
+      description:
+        'Tabs this template appears under on the Templates page. Tick any that apply; every template also shows under "All".',
+      of: [{ type: 'string' }],
+      options: {
+        list: FILTER_CATEGORIES,
+        layout: 'grid',
+      },
+    },
+    {
       name: 'isMostPopular',
       title: 'Show in "Most Popular"',
       type: 'boolean',
@@ -389,7 +404,7 @@ export const product = {
       title: 'Launch date',
       type: 'datetime',
       group: 'content',
-      description: 'Drives the order of the "Recent Launched" grid.',
+      description: 'Drives the order of the "Recent Drops" grid.',
       initialValue: () => new Date().toISOString(),
     },
     {

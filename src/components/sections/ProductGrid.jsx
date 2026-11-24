@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/Button'
 import { TemplateCard } from '@/components/ui/TemplateCard'
 
 /**
- * The "Most Popular" / "Recent Launched" blocks. Both used identical markup in
+ * The "Most Popular" / "Recent Drops" blocks. Both used identical markup in
  * the export apart from the grid class and heading, so they share a component.
  *
  * layout: 'popular' (4-up) | 'recent' (3-up)

@@ -172,7 +172,7 @@ export default async function ProductPage({ params }) {
         </div>
       </section>
 
-      <ProductGrid heading="Recent Launched" products={moreTemplates} layout="recent" />
+      <ProductGrid heading="Recent Drops" products={moreTemplates} layout="recent" />
       <Testimonials settings={settings} testimonials={testimonials} />
       <TrustMarquee settings={settings} logos={trustLogos} />
       <LaunchCta settings={settings} />
