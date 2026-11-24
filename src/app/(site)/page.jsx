@@ -1,6 +1,6 @@
 import { HomePageContent } from '@/components/sections/HomePageContent'
 
-// Sections live in HomePageContent so /hero-preview can render the same page.
+// Sections live in HomePageContent. Pass `motionGrid` to turn on the animated hero.
 export default function HomePage() {
   return <HomePageContent />
 }

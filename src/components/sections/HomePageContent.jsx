@@ -18,7 +18,7 @@ import { imageUrl } from '@/sanity/image'
 
 /**
  * Every homepage section, in order. Shared by the homepage (app/(site)/page.jsx)
- * and the /hero-preview review page so the two never drift apart.
+ * (the /hero-preview review page was removed for now).
  *
  * `motionGrid` turns on the rotating card field behind the hero (trial).
  */

@@ -2801,13 +2801,16 @@ a.nav_btn:hover .btn_roll_hover {
 }
 
 /* ============================================================
-   Hero "motion grid" background (trial - /hero-preview only)
+   Hero "motion grid" background (trial - currently unused)
    A rotating 3D sphere of template cards; positions are set per
    frame by MotionGridBackground.jsx.
    ============================================================ */
 
 .section_hero.has-bg-layer {
   overflow: hidden;
+  /* Room below the copy for the card field to keep flowing, as in the
+     reference, instead of ending right under the social proof. */
+  padding-bottom: 160px;
 }
 
 /* Keep the hero copy above the card field. */
@@ -2824,6 +2827,9 @@ a.nav_btn:hover .btn_roll_hover {
   z-index: 0;
   opacity: 0;
   transition: opacity 0.8s ease;
+  /* Cards fade out towards the bottom edge instead of being cut off. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 }
 
 /* Fades in once the first frame is laid out (no jump on load). */
@@ -2847,6 +2853,10 @@ a.nav_btn:hover .btn_roll_hover {
 
 /* Phones: the copy fills most of the hero, so keep the field fainter. */
 @media (max-width: 767px) {
+  .section_hero.has-bg-layer {
+    padding-bottom: 96px;
+  }
+
   .motion_grid_bg.is-ready {
     opacity: 0.45;
   }

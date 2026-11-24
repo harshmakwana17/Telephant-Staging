@@ -8,7 +8,7 @@ import { RollingText } from '@/components/ui/RollingText'
 import { imageUrl } from '@/sanity/image'
 
 // `motionGridImages` turns on the animated card field behind the hero copy
-// (used by the /hero-preview page to trial the effect). The homepage passes
+// (trial effect, currently off; /hero-preview page removed). The homepage passes
 // nothing, so it renders exactly as before.
 export function Hero({ settings, motionGridImages = null }) {
   const hasMotionGrid = Boolean(motionGridImages?.length)
